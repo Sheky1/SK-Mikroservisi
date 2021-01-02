@@ -1,4 +1,4 @@
-package dto;
+package com.sk.korisnicki.dto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

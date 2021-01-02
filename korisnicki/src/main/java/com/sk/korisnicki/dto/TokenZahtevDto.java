@@ -1,4 +1,4 @@
-package dto;
+package com.sk.korisnicki.dto;
 
 public class TokenZahtevDto {
 

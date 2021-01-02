@@ -1,22 +1,23 @@
-package servis;
+package com.sk.korisnicki.servis;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import model.Korisnik;
-import repository.KorisnickiRepository;
-import repository.KorisnikMapper;
-import security.TokenServis;
+import com.sk.korisnicki.model.Korisnik;
+import com.sk.korisnicki.repository.KorisnickiRepository;
+import com.sk.korisnicki.repository.KorisnikMapper;
+import com.sk.korisnicki.security.TokenServis;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import dto.KorisnikDto;
-import dto.RegistracijaKorisnikaDto;
-import dto.TokenOdgovorDto;
-import dto.TokenZahtevDto;
-import exceptions.NotFoundException;
+import com.sk.korisnicki.dto.KorisnikDto;
+import com.sk.korisnicki.dto.RegistracijaKorisnikaDto;
+import com.sk.korisnicki.dto.TokenOdgovorDto;
+import com.sk.korisnicki.dto.TokenZahtevDto;
+
+import com.sk.korisnicki.exceptions.NotFoundException;
 
 @Service
 @Transactional
@@ -36,8 +37,7 @@ public class KorisnickiServisImpl implements KorisnickiServis {
 
     @Override
     public Page<KorisnikDto> findAll(Pageable pageable) {
-        return korisnickiRepository.findAll(pageable)
-                .map(korisnikMapper::korisnikToKorisnikDto);
+        return korisnickiRepository.findAll(pageable).map(korisnikMapper::korisnikToKorisnikDto);
     }
 
 //    @Override

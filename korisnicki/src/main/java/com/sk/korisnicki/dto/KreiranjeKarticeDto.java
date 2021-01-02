@@ -1,4 +1,4 @@
-package dto;
+package com.sk.korisnicki.dto;
 
 import javax.validation.constraints.NotBlank;
 
@@ -33,6 +33,4 @@ public class KreiranjeKarticeDto {
 	public void setSigurnosniBroj(String sigurnosniBroj) {
 		this.sigurnosniBroj = sigurnosniBroj;
 	}
-	
-	
 }

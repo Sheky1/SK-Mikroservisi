@@ -1,4 +1,4 @@
-package dto;
+package com.sk.korisnicki.dto;
 
 import javax.persistence.Entity;
 import javax.persistence.Index;

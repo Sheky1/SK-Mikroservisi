@@ -1,4 +1,4 @@
-package security;
+package com.sk.korisnicki.security;
 
 import io.jsonwebtoken.Claims;
 import org.aspectj.lang.ProceedingJoinPoint;

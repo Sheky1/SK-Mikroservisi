@@ -1,10 +1,10 @@
-package repository;
+package com.sk.korisnicki.repository;
 
 import org.springframework.stereotype.Component;
 
-import dto.KorisnikDto;
-import dto.RegistracijaKorisnikaDto;
-import model.Korisnik;
+import com.sk.korisnicki.dto.KorisnikDto;
+import com.sk.korisnicki.dto.RegistracijaKorisnikaDto;
+import com.sk.korisnicki.model.Korisnik;
 
 @Component
 public class KorisnikMapper {

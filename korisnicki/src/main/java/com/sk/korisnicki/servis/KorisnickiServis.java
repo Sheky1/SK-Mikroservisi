@@ -1,6 +1,6 @@
-package servis;
+package com.sk.korisnicki.servis;
 
-import dto.*;
+import com.sk.korisnicki.dto.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

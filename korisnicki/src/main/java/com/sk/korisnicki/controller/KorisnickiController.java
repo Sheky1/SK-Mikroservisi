@@ -1,4 +1,4 @@
-package controller;
+package com.sk.korisnicki.controller;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,15 +12,16 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dto.KorisnikDto;
-import dto.RegistracijaKorisnikaDto;
-import dto.TokenOdgovorDto;
-import dto.TokenZahtevDto;
-import security.CheckSecurity;
+import com.sk.korisnicki.dto.KorisnikDto;
+import com.sk.korisnicki.dto.RegistracijaKorisnikaDto;
+import com.sk.korisnicki.dto.TokenOdgovorDto;
+import com.sk.korisnicki.dto.TokenZahtevDto;
+
+import com.sk.korisnicki.security.CheckSecurity;
 
 import javax.validation.Valid;
 
-import servis.KorisnickiServis;
+import com.sk.korisnicki.servis.KorisnickiServis;
 
 @RestController
 @RequestMapping("/korisnik")
@@ -43,8 +44,8 @@ public class KorisnickiController {
 //    }
 
     @PostMapping
-    public ResponseEntity<KorisnikDto> saveUser(@RequestBody @Valid RegistracijaKorisnikaDto registracijaKorisnikaDro) {
-        return new ResponseEntity<>(korisnickiServis.add(registracijaKorisnikaDro), HttpStatus.CREATED);
+    public ResponseEntity<KorisnikDto> saveUser(@RequestBody @Valid RegistracijaKorisnikaDto registracijaKorisnikaDto) {
+        return new ResponseEntity<>(korisnickiServis.add(registracijaKorisnikaDto), HttpStatus.CREATED);
     }
 
     @PostMapping("/login")

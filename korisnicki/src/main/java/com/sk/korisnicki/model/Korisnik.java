@@ -1,5 +1,6 @@
-package model;
+package com.sk.korisnicki.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,24 +11,30 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(indexes = {@Index(columnList = "brPasosa", unique = true), @Index(columnList = "email", unique = true)})
+//@Table(indexes = {@Index(columnList = "brPasosa", unique = true), @Index(columnList = "email", unique = true)})
 public class Korisnik {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column
     private String ime;
+    @Column
     private String prezime;
+    @Column
     private String email;
+    @Column
     private String sifra;
+    @Column
     private String brPasosa;
+    @Column
     private int milje;
     @ManyToOne(optional = false)
     private Role role;
     @ManyToOne
     private Kartica kartica;
-    @OneToOne
-    private Rank rank;
+//    @Column
+//    private Rank rank;
     
 	public Long getId() {
 		return id;
@@ -77,12 +84,12 @@ public class Korisnik {
 	public void setKartica(Kartica kartica) {
 		this.kartica = kartica;
 	}
-	public Rank getRank() {
-		return rank;
-	}
-	public void setRank(Rank rank) {
-		this.rank = rank;
-	}
+//	public Rank getRank() {
+//		return rank;
+//	}
+//	public void setRank(Rank rank) {
+//		this.rank = rank;
+//	}
 	public int getMilje() {
 		return milje;
 	}
