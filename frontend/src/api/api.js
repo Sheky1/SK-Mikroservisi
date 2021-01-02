@@ -13,7 +13,7 @@ export const api_axios = (method, query, data, headers = headers_default()) => {
     // console.log(query);
     return axios({
         method: `${method}`,
-        url: `https://miljanpeles.com/renter_backend/public/api${query}`,
+        url: `https://localhost:8761/api${query}`,
         data: data,
         headers: headers,
     });

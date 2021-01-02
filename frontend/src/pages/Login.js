@@ -1,12 +1,15 @@
 import React from "react";
 import { Row, Col, Container } from "react-bootstrap";
+import { connect } from "react-redux";
+import * as actions from "../store/actions/index";
+import { Link } from "react-router-dom";
 
 class Login extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: "",
-            password: "",
+            email: "",
+            sifra: "",
         };
     }
 
@@ -20,14 +23,15 @@ class Login extends React.Component {
 
     onLogin = (event) => {
         event.preventDefault();
-        this.props.history.push("/home/");
+        this.props.history.push("/home-user/");
         // this.props.initiateLogin({
-        //     username: this.state.username,
-        //     password: this.state.password,
+        //     email: this.state.email,
+        //     sifra: this.state.sifra,
         //     history: this.props.history,
         // });
         // setTimeout(() => {
-        //     if (this.props.user.isLogged === false) this.toggleError();
+        //     if (this.props.user.isLogged === false)
+        //         console.log("NIJE ULOGOVAN");
         // }, 1200);
     };
 
@@ -52,15 +56,15 @@ class Login extends React.Component {
 
                                     <input
                                         type="text"
-                                        name="username"
-                                        placeholder="Unesite korisnicko ime"
+                                        name="email"
+                                        placeholder="Unesite email"
                                         onChange={this.handleChange}
                                         required
                                     />
 
                                     <input
                                         type="password"
-                                        name="password"
+                                        name="sifra"
                                         placeholder="Unesite sifru"
                                         onChange={this.handleChange}
                                         required
@@ -72,6 +76,12 @@ class Login extends React.Component {
                                     >
                                         Potvrdi
                                     </button>
+                                    <Link
+                                        className="btn-primary"
+                                        to="/register/"
+                                    >
+                                        Registruj se
+                                    </Link>
                                 </form>
                             </Col>
                         </Row>
@@ -82,16 +92,16 @@ class Login extends React.Component {
     }
 }
 
-// const mapStateToProps = (state) => {
-//     return {
-//         user: state.user,
-//     };
-// };
+const mapStateToProps = (state) => {
+    return {
+        user: state.user,
+    };
+};
 
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         initiateLogin: (user) => dispatch(actions.initiateLogin(user)),
-//     };
-// };
+const mapDispatchToProps = (dispatch) => {
+    return {
+        initiateLogin: (user) => dispatch(actions.initiateLogin(user)),
+    };
+};
 
-export default Login;
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
