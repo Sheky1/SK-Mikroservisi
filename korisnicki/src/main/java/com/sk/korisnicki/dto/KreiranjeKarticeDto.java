@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Length;
 
 public class KreiranjeKarticeDto {
 
+	private Long idUsera;
 	@NotBlank
 	private String imeVlasnika;
 	@NotBlank
@@ -40,5 +41,11 @@ public class KreiranjeKarticeDto {
 	}
 	public void setSigurnosniBroj(String sigurnosniBroj) {
 		this.sigurnosniBroj = sigurnosniBroj;
+	}
+	public Long getIdUsera() {
+		return idUsera;
+	}
+	public void setIdUsera(Long idUsera) {
+		this.idUsera = idUsera;
 	}
 }

@@ -1,17 +1,16 @@
 package com.sk.korisnicki.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Index;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.OneToMany;
 
 @Entity
-//@Table(indexes = {@Index(columnList = "brPasosa", unique = true), @Index(columnList = "email", unique = true)})
 public class Korisnik {
 
     @Id
@@ -33,8 +32,8 @@ public class Korisnik {
     private String rank;
     @ManyToOne(optional = false)
     private Role role;
-    @ManyToOne
-    private Kartica kartica;
+    @OneToMany
+    private List<Kartica> kartice;
     
 	public Long getId() {
 		return id;
@@ -78,11 +77,11 @@ public class Korisnik {
 	public void setRole(Role role) {
 		this.role = role;
 	}
-	public Kartica getKartica() {
-		return kartica;
+	public List<Kartica> getKartice() {
+		return kartice;
 	}
-	public void setKartica(Kartica kartica) {
-		this.kartica = kartica;
+	public void setKartice(List<Kartica> kartice) {
+		this.kartice = kartice;
 	}
 	public int getMilje() {
 		return milje;

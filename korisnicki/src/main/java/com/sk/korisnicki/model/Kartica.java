@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Kartica {
@@ -20,6 +21,8 @@ public class Kartica {
 	private String brKartice;
     @Column
 	private String sigurnosniBroj;
+    @ManyToOne
+    private Korisnik korisnik;
 	
 	public Long getId() {
 		return id;
@@ -50,6 +53,12 @@ public class Kartica {
 	}
 	public void setSigurnosniBroj(String sigurnosniBroj) {
 		this.sigurnosniBroj = sigurnosniBroj;
+	}
+	public Korisnik getKorisnik() {
+		return korisnik;
+	}
+	public void setKorisnik(Korisnik korisnik) {
+		this.korisnik = korisnik;
 	}
 	
 }
