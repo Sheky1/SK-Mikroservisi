@@ -9,7 +9,6 @@ import com.sk.korisnicki.security.TokenServis;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.sk.korisnicki.dto.KorisnikDto;
 import com.sk.korisnicki.dto.RegistracijaKorisnikaDto;
@@ -43,6 +42,17 @@ public class KorisnickiServisImpl implements KorisnickiServis {
         korisnickiRepository.save(noviKorisnik);
         return korisnikMapper.korisnikToKorisnikDto(noviKorisnik);
     }
+
+	@Override
+	public KorisnikDto update(Long id, RegistracijaKorisnikaDto registracijaKorisnikaDto) {
+    	Korisnik korisnik = korisnickiRepository
+                .findKorisnikById(id)
+                .orElseThrow(() -> new NotFoundException(String
+                .format("Korisnik sa id-jem: %s ne postoji.", id)));
+        Korisnik updateKorisnik = korisnikMapper.korisnikToUpdateKorisnik(korisnik, registracijaKorisnikaDto);
+        korisnickiRepository.save(updateKorisnik);
+        return korisnikMapper.korisnikToKorisnikDto(updateKorisnik);
+	}
 
     @Override
     public TokenOdgovorDto login(TokenZahtevDto tokenZahtevDto) {

@@ -1,32 +1,13 @@
-package com.sk.korisnicki.model;
+package com.sk.korisnicki.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+public class KarticaDto {
 
-@Entity
-public class Kartica {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
 	private String imeVlasnika;
-    @Column
 	private String prezimeVlasnika;
-    @Column
 	private String brKartice;
-    @Column
 	private String sigurnosniBroj;
 	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
 	public String getImeVlasnika() {
 		return imeVlasnika;
 	}
@@ -38,6 +19,12 @@ public class Kartica {
 	}
 	public void setPrezimeVlasnika(String prezimeVlasnika) {
 		this.prezimeVlasnika = prezimeVlasnika;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
 	}
 	public String getBrKartice() {
 		return brKartice;
@@ -51,5 +38,5 @@ public class Kartica {
 	public void setSigurnosniBroj(String sigurnosniBroj) {
 		this.sigurnosniBroj = sigurnosniBroj;
 	}
-	
+		
 }

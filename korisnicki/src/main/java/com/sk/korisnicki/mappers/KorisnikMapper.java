@@ -38,4 +38,13 @@ public class KorisnikMapper {
         korisnik.setRole(roleRepository.findRoleByNaziv("ROLE_USER").get());
         return korisnik;
     }
+
+    public Korisnik korisnikToUpdateKorisnik(Korisnik korisnik, RegistracijaKorisnikaDto registracijaKorisnikaDto) {
+        korisnik.setEmail(registracijaKorisnikaDto.getEmail());
+        korisnik.setIme(registracijaKorisnikaDto.getIme());
+        korisnik.setPrezime(registracijaKorisnikaDto.getPrezime());
+        korisnik.setBrPasosa(registracijaKorisnikaDto.getBrPasosa());
+        korisnik.setSifra(registracijaKorisnikaDto.getSifra());
+        return korisnik;
+    }
 }

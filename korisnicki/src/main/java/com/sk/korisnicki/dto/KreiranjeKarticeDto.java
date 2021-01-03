@@ -6,8 +6,10 @@ import org.hibernate.validator.constraints.Length;
 
 public class KreiranjeKarticeDto {
 
-    @NotBlank
-	private String vlasnik;
+	@NotBlank
+	private String imeVlasnika;
+	@NotBlank
+	private String prezimeVlasnika;
     @NotBlank
     @Length(min = 16, max = 16)
 	private String brKartice;
@@ -15,11 +17,17 @@ public class KreiranjeKarticeDto {
     @Length(min = 3, max = 3)
 	private String sigurnosniBroj;
     
-	public String getVlasnik() {
-		return vlasnik;
+	public String getImeVlasnika() {
+		return imeVlasnika;
 	}
-	public void setVlasnik(String vlasnik) {
-		this.vlasnik = vlasnik;
+	public void setImeVlasnika(String imeVlasnika) {
+		this.imeVlasnika = imeVlasnika;
+	}
+	public String getPrezimeVlasnika() {
+		return prezimeVlasnika;
+	}
+	public void setPrezimeVlasnika(String prezimeVlasnika) {
+		this.prezimeVlasnika = prezimeVlasnika;
 	}
 	public String getBrKartice() {
 		return brKartice;

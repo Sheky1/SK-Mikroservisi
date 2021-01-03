@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface KorisnickiRepository extends JpaRepository<Korisnik, Long> {
 
     Optional<Korisnik> findKorisnikByEmailAndSifra(String email, String sifra);
+    Optional<Korisnik> findKorisnikById(Long id);
 }
