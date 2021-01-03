@@ -46,16 +46,13 @@ public class KorisnickiServisImpl implements KorisnickiServis {
 
     @Override
     public TokenOdgovorDto login(TokenZahtevDto tokenZahtevDto) {
-        //Try to find active user for specified credentials
-    	Korisnik user = korisnickiRepository
+    	Korisnik korisnik = korisnickiRepository
                 .findKorisnikByEmailAndSifra(tokenZahtevDto.getEmail(), tokenZahtevDto.getSifra())
                 .orElseThrow(() -> new NotFoundException(String
-                        .format("User with email: %s and password: %s not found.", tokenZahtevDto.getEmail(),
-                        		tokenZahtevDto.getSifra())));
-        //Create token payload
+                .format("Korisnik sa email-om: %s i sifrom: %s ne postoji.", tokenZahtevDto.getEmail(), tokenZahtevDto.getSifra())));
         Claims claims = Jwts.claims();
-        claims.put("id", user.getId());
-        claims.put("role", user.getRole().getName());
+        claims.put("id", korisnik.getId());
+        claims.put("role", korisnik.getRole().getNaziv());
         //Generate token
         return new TokenOdgovorDto(tokenServis.generate(claims));
     }

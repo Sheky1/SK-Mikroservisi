@@ -51,13 +51,11 @@ public class KorisnickiController {
 //        return new ResponseEntity<>(korisnickiServis.findDiscount(id), HttpStatus.OK);
 //    }
 
-//    @ApiOperation(value = "Register user")
     @PostMapping
     public ResponseEntity<KorisnikDto> saveKorisnik(@RequestBody @Valid RegistracijaKorisnikaDto registracijaKorisnikaDto) {
         return new ResponseEntity<>(korisnickiServis.add(registracijaKorisnikaDto), HttpStatus.CREATED);
     }
 
-//    @ApiOperation(value = "Login")
     @PostMapping("/login")
     public ResponseEntity<TokenOdgovorDto> loginUser(@RequestBody @Valid TokenZahtevDto tokenZahtevDto) {
         return new ResponseEntity<>(korisnickiServis.login(tokenZahtevDto), HttpStatus.OK);

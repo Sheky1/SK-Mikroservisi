@@ -31,7 +31,7 @@ public class Korisnik {
     private int milje;
     @Column
     private String rank;
-    @ManyToOne()
+    @ManyToOne(optional = false)
     private Role role;
     @ManyToOne
     private Kartica kartica;

@@ -35,7 +35,7 @@ public class KorisnikMapper {
         korisnik.setPrezime(registracijaKorisnikaDto.getPrezime());
         korisnik.setBrPasosa(registracijaKorisnikaDto.getBrPasosa());
         korisnik.setSifra(registracijaKorisnikaDto.getSifra());
-//        korisnik.setRole(roleRepository.findRoleByNaziv("ROLE_USER").get());
+        korisnik.setRole(roleRepository.findRoleByNaziv("ROLE_USER").get());
         return korisnik;
     }
 }

@@ -33,19 +33,19 @@ public class Role {
         this.id = id;
     }
 
-    public String getName() {
+    public String getNaziv() {
         return naziv;
     }
 
-    public void setName(String name) {
+    public void setNaziv(String name) {
         this.naziv = name;
     }
 
-    public String getDescription() {
+    public String getOpis() {
         return opis;
     }
 
-    public void setDescription(String description) {
+    public void setOpis(String description) {
         this.opis = description;
     }
 }

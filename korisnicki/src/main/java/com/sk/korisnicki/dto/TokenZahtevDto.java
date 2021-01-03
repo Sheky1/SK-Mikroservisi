@@ -1,8 +1,14 @@
 package com.sk.korisnicki.dto;
 
+import javax.validation.constraints.Email;
+
+import org.hibernate.validator.constraints.Length;
+
 public class TokenZahtevDto {
 
+    @Email
     private String email;
+    @Length(min = 8, max = 20)
     private String sifra;
 
     public TokenZahtevDto() {
