@@ -7,6 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity
 public class Let {
 	
@@ -22,6 +25,7 @@ public class Let {
     @Column
     private int cena;
     @ManyToOne
+//    @OnDelete(action = OnDeleteAction.CASCADE)
     private Avion avion;
     
 	public Long getId() {

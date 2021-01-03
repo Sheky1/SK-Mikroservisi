@@ -9,4 +9,5 @@ import com.sk.letovi.dto.KreiranjeAvionaDto;
 public interface AvionServis {
 
     AvionDto add(KreiranjeAvionaDto kreiranjeAvionaDto);
+    AvionDto delete(Long id);
 }

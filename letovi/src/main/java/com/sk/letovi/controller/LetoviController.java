@@ -6,7 +6,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -35,8 +37,13 @@ public class LetoviController {
     }
 
     @PostMapping
-    public ResponseEntity<LetDto> saveKorisnik(@RequestBody @Valid KreiranjeLetaDto kreiranjeLetaDto) {
+    public ResponseEntity<LetDto> saveLet(@RequestBody @Valid KreiranjeLetaDto kreiranjeLetaDto) {
         return new ResponseEntity<>(letoviServis.add(kreiranjeLetaDto), HttpStatus.CREATED);
+    }
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<LetDto> deleteLet(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(letoviServis.delete(id), HttpStatus.OK);
     }
 
 }

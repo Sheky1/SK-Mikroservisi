@@ -48,4 +48,21 @@ public class LetoviServisImpl implements LetoviServis {
         return letoviMapper.letToLetDto(novLet);
 	}
 
+	@Override
+	public LetDto delete(Long id) {
+    	Let let= letoviRepository
+                .findLetById(id)
+                .orElseThrow(() -> new NotFoundException(String
+                .format("Korisnik sa id-jem: %s ne postoji.", id)));
+    	Avion avion = avionRepository
+                .findAvionById(let.getAvion().getId())
+                .orElseThrow(() -> new NotFoundException(String
+                .format("Korisnik sa id-jem: %s ne postoji.", let.getAvion().getId())));
+    	
+    	avion.getLetovi().remove(let);
+    	avionRepository.save(avion);
+    	letoviRepository.delete(let);
+    	return letoviMapper.letToLetDto(let);
+	}
+
 }

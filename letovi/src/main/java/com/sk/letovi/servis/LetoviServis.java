@@ -13,5 +13,6 @@ public interface LetoviServis {
     Page<LetDto> findAll(Pageable pageable);
 
     LetDto add(KreiranjeLetaDto kreiranjeLetaDto);
+    LetDto delete(Long id);
 
 }
