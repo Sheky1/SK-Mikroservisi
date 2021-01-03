@@ -5,7 +5,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -17,7 +16,7 @@ import com.sk.korisnicki.dto.RegistracijaKorisnikaDto;
 import com.sk.korisnicki.dto.TokenOdgovorDto;
 import com.sk.korisnicki.dto.TokenZahtevDto;
 
-import com.sk.korisnicki.security.CheckSecurity;
+//import com.sk.korisnicki.security.CheckSecurity;
 
 import javax.validation.Valid;
 
@@ -32,8 +31,17 @@ public class KorisnickiController {
     public KorisnickiController(KorisnickiServis korisnickiServis) {
         this.korisnickiServis = korisnickiServis;
     }
+
+//    @ApiOperation(value = "Get all users")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "page", value = "What page number you want", dataType = "string", paramType = "query"),
+//            @ApiImplicitParam(name = "size", value = "Number of items to return", dataType = "string", paramType = "query"),
+//            @ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
+//                    value = "Sorting criteria in the format: property(,asc|desc). " +
+//                            "Default sort order is ascending. " +
+//                            "Multiple sort criteria are supported.")})
     @GetMapping
-    @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_USER"})
+//    @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_USER"})
     public ResponseEntity<Page<KorisnikDto>> getAllUsers(@RequestHeader("Authorization") String authorization, Pageable pageable) {
         return new ResponseEntity<>(korisnickiServis.findAll(pageable), HttpStatus.OK);
     }
@@ -43,11 +51,13 @@ public class KorisnickiController {
 //        return new ResponseEntity<>(korisnickiServis.findDiscount(id), HttpStatus.OK);
 //    }
 
+//    @ApiOperation(value = "Register user")
     @PostMapping
-    public ResponseEntity<KorisnikDto> saveUser(@RequestBody @Valid RegistracijaKorisnikaDto registracijaKorisnikaDto) {
+    public ResponseEntity<KorisnikDto> saveKorisnik(@RequestBody @Valid RegistracijaKorisnikaDto registracijaKorisnikaDto) {
         return new ResponseEntity<>(korisnickiServis.add(registracijaKorisnikaDto), HttpStatus.CREATED);
     }
 
+//    @ApiOperation(value = "Login")
     @PostMapping("/login")
     public ResponseEntity<TokenOdgovorDto> loginUser(@RequestBody @Valid TokenZahtevDto tokenZahtevDto) {
         return new ResponseEntity<>(korisnickiServis.login(tokenZahtevDto), HttpStatus.OK);

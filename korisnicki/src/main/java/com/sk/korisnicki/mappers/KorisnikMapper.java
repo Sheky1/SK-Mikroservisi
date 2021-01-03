@@ -1,10 +1,11 @@
-package com.sk.korisnicki.repository;
+package com.sk.korisnicki.mappers;
 
 import org.springframework.stereotype.Component;
 
 import com.sk.korisnicki.dto.KorisnikDto;
 import com.sk.korisnicki.dto.RegistracijaKorisnikaDto;
 import com.sk.korisnicki.model.Korisnik;
+import com.sk.korisnicki.repository.RoleRepository;
 
 @Component
 public class KorisnikMapper {
@@ -27,21 +28,14 @@ public class KorisnikMapper {
 
     public Korisnik registracijaKorisnikaDtoToKorisnik(RegistracijaKorisnikaDto registracijaKorisnikaDto) {
     	Korisnik korisnik = new Korisnik();
+        korisnik.setMilje(0);
+        korisnik.setRank("Bronza");
         korisnik.setEmail(registracijaKorisnikaDto.getEmail());
         korisnik.setIme(registracijaKorisnikaDto.getIme());
         korisnik.setPrezime(registracijaKorisnikaDto.getPrezime());
         korisnik.setBrPasosa(registracijaKorisnikaDto.getBrPasosa());
         korisnik.setSifra(registracijaKorisnikaDto.getSifra());
-        korisnik.setRole(roleRepository.findRoleByNaziv("ROLE_USER").get());
-        //Set address
-//        Address address = new Address();
-//        address.setCountry(registracijaKorisnikaDto.getAddress().getCountry());
-//        address.setCity(registracijaKorisnikaDto.getAddress().getCity());
-//        address.setPostcode(registracijaKorisnikaDto.getAddress().getPostcode());
-//        address.setStreet(registracijaKorisnikaDto.getAddress().getStreet());
-//        address.setNumber(registracijaKorisnikaDto.getAddress().getNumber());
-//        address.setApartmentNumber(registracijaKorisnikaDto.getAddress().getApartmentNumber());
-//        user.setAddress(address);
+//        korisnik.setRole(roleRepository.findRoleByNaziv("ROLE_USER").get());
         return korisnik;
     }
 }

@@ -1,11 +1,5 @@
 package com.sk.korisnicki.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.Index;
-import javax.persistence.Table;
-
-@Entity
-@Table(indexes = {@Index(columnList = "brPasosa", unique = true), @Index(columnList = "email", unique = true)})
 public class KorisnikDto {
 
     private Long id;

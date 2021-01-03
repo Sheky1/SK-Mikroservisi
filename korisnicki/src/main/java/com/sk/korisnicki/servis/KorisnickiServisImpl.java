@@ -4,7 +4,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import com.sk.korisnicki.model.Korisnik;
 import com.sk.korisnicki.repository.KorisnickiRepository;
-import com.sk.korisnicki.repository.KorisnikMapper;
 import com.sk.korisnicki.security.TokenServis;
 
 import org.springframework.data.domain.Page;
@@ -18,21 +17,19 @@ import com.sk.korisnicki.dto.TokenOdgovorDto;
 import com.sk.korisnicki.dto.TokenZahtevDto;
 
 import com.sk.korisnicki.exceptions.NotFoundException;
+import com.sk.korisnicki.mappers.KorisnikMapper;
 
 @Service
-@Transactional
 public class KorisnickiServisImpl implements KorisnickiServis {
 
     private TokenServis tokenServis;
     private KorisnickiRepository korisnickiRepository;
-//    private UserStatusRepository userStatusRepository;
     private KorisnikMapper korisnikMapper;
 
     public KorisnickiServisImpl(KorisnickiRepository korisnickiRepository, TokenServis tokenServis, KorisnikMapper korisnikMapper) {
         this.korisnickiRepository = korisnickiRepository;
         this.tokenServis = tokenServis;
         this.korisnikMapper = korisnikMapper;
-//        this.userStatusRepository = userStatusRepository;
     }
 
     @Override
@@ -40,28 +37,11 @@ public class KorisnickiServisImpl implements KorisnickiServis {
         return korisnickiRepository.findAll(pageable).map(korisnikMapper::korisnikToKorisnikDto);
     }
 
-//    @Override
-//    public DiscountDto findDiscount(Long id) {
-//        User user = userRepository
-//                .findById(id)
-//                .orElseThrow(() -> new NotFoundException(String
-//                        .format("User with id: %d not found.", id)));
-//        List<UserStatus> userStatusList = userStatusRepository.findAll();
-//        //get discount
-//        Integer discount = userStatusList.stream()
-//                .filter(userStatus -> userStatus.getMaxNumberOfReservations() >= user.getNumberOfReservations()
-//                        && userStatus.getMinNumberOfReservations() <= user.getNumberOfReservations())
-//                .findAny()
-//                .get()
-//                .getDiscount();
-//        return new DiscountDto(discount);
-//    }
-
     @Override
     public KorisnikDto add(RegistracijaKorisnikaDto registracijaKorisnikaDto) {
-        Korisnik user = korisnikMapper.registracijaKorisnikaDtoToKorisnik(registracijaKorisnikaDto);
-        korisnickiRepository.save(user);
-        return korisnikMapper.korisnikToKorisnikDto(user);
+        Korisnik noviKorisnik = korisnikMapper.registracijaKorisnikaDtoToKorisnik(registracijaKorisnikaDto);
+        korisnickiRepository.save(noviKorisnik);
+        return korisnikMapper.korisnikToKorisnikDto(noviKorisnik);
     }
 
     @Override

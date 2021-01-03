@@ -17,7 +17,7 @@ public class RegistracijaKorisnikaDto {
     @Length(min = 8, max = 20)
     private String sifra;
     @NotBlank
-    @Length(min = 13, max = 13)
+    @Length(min = 1, max = 15)
     private String brPasosa;
     
 	public String getEmail() {

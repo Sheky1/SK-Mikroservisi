@@ -29,12 +29,12 @@ public class Korisnik {
     private String brPasosa;
     @Column
     private int milje;
-    @ManyToOne(optional = false)
+    @Column
+    private String rank;
+    @ManyToOne()
     private Role role;
     @ManyToOne
     private Kartica kartica;
-//    @Column
-//    private Rank rank;
     
 	public Long getId() {
 		return id;
@@ -84,17 +84,17 @@ public class Korisnik {
 	public void setKartica(Kartica kartica) {
 		this.kartica = kartica;
 	}
-//	public Rank getRank() {
-//		return rank;
-//	}
-//	public void setRank(Rank rank) {
-//		this.rank = rank;
-//	}
 	public int getMilje() {
 		return milje;
 	}
 	public void setMilje(int milje) {
 		this.milje = milje;
+	}
+	public String getRank() {
+		return rank;
+	}
+	public void setRank(String rank) {
+		this.rank = rank;
 	}
     
     

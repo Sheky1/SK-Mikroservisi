@@ -7,7 +7,6 @@ import com.sk.korisnicki.model.Korisnik;
 
 import java.util.Optional;
 
-
 @Repository
 public interface KorisnickiRepository extends JpaRepository<Korisnik, Long> {
 
