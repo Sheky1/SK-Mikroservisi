@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 public interface KorisnickiServis {
 
     Page<KorisnikDto> findAll(Pageable pageable);
+    KorisnikDto findKorisnik(Long id);
 
     KorisnikDto add(RegistracijaKorisnikaDto registracijaKorisnikaDto);
     KorisnikDto update(Long id, RegistracijaKorisnikaDto registracijaKorisnikaDto);

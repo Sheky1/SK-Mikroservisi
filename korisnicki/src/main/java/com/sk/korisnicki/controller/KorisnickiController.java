@@ -35,8 +35,13 @@ public class KorisnickiController {
 
     @GetMapping
     @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_USER"})
-    public ResponseEntity<Page<KorisnikDto>> getAllUsers(@RequestHeader("Authorization") String authorization, Pageable pageable) {
+    public ResponseEntity<Page<KorisnikDto>> getAll(@RequestHeader("Authorization") String authorization, Pageable pageable) {
         return new ResponseEntity<>(korisnickiServis.findAll(pageable), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<KorisnikDto> getKorisnik(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(korisnickiServis.findKorisnik(id), HttpStatus.OK);
     }
 
     @PostMapping

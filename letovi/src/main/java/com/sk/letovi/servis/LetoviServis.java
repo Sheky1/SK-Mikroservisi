@@ -11,6 +11,7 @@ import com.sk.letovi.dto.LetDto;
 public interface LetoviServis {
 
     Page<LetDto> findAll(Pageable pageable);
+    LetDto findLet(Long id);
 
     LetDto add(KreiranjeLetaDto kreiranjeLetaDto);
     LetDto delete(Long id);

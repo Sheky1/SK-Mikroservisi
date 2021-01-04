@@ -30,6 +30,15 @@ public class LetoviServisImpl implements LetoviServis {
 	public Page<LetDto> findAll(Pageable pageable) {
         return letoviRepository.findAll(pageable).map(letoviMapper::letToLetDto);
 	}
+    
+	@Override
+	public LetDto findLet(Long id) { 
+		Let let= letoviRepository
+			    .findLetById(id)
+			    .orElseThrow(() -> new NotFoundException(String
+			    .format("Korisnik sa id-jem: %s ne postoji.", id)));
+		return letoviMapper.letToLetDto(let);
+	}
 
 	@Override
 	public LetDto add(KreiranjeLetaDto kreiranjeLetaDto) {

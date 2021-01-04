@@ -16,6 +16,8 @@ public class Karta {
 	private Long idUsera;
     @Column
     private Long idLeta;
+    @Column
+    private int cena;
     
 	public Long getId() {
 		return id;
@@ -34,6 +36,12 @@ public class Karta {
 	}
 	public void setIdLeta(Long idLeta) {
 		this.idLeta = idLeta;
+	}
+	public int getCena() {
+		return cena;
+	}
+	public void setCena(int cena) {
+		this.cena = cena;
 	}
 
 }

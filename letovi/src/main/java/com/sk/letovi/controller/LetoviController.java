@@ -36,6 +36,11 @@ public class LetoviController {
         return new ResponseEntity<>(letoviServis.findAll(pageable), HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<LetDto> getLet(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(letoviServis.findLet(id), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<LetDto> saveLet(@RequestBody @Valid KreiranjeLetaDto kreiranjeLetaDto) {
         return new ResponseEntity<>(letoviServis.add(kreiranjeLetaDto), HttpStatus.CREATED);

@@ -37,6 +37,15 @@ public class KorisnickiServisImpl implements KorisnickiServis {
     }
 
     @Override
+    public KorisnikDto findKorisnik(Long id) {
+    	Korisnik korisnik = korisnickiRepository
+                .findKorisnikById(id)
+                .orElseThrow(() -> new NotFoundException(String
+                .format("Korisnik sa id-jem: %s ne postoji.", id)));
+        return korisnikMapper.korisnikToKorisnikDto(korisnik);
+    }
+
+    @Override
     public KorisnikDto add(RegistracijaKorisnikaDto registracijaKorisnikaDto) {
         Korisnik noviKorisnik = korisnikMapper.registracijaKorisnikaDtoToKorisnik(registracijaKorisnikaDto);
         korisnickiRepository.save(noviKorisnik);
