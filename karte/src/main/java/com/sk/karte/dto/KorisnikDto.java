@@ -7,6 +7,7 @@ public class KorisnikDto {
     private String prezime;
     private String email;
     private String brPasosa;
+    private String rank;
     
 	public Long getId() {
 		return id;
@@ -37,6 +38,12 @@ public class KorisnikDto {
 	}
 	public void setBrPasosa(String brPasosa) {
 		this.brPasosa = brPasosa;
+	}
+	public String getRank() {
+		return rank;
+	}
+	public void setRank(String rank) {
+		this.rank = rank;
 	}
 	
 }

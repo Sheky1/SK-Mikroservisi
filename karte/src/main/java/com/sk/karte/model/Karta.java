@@ -19,6 +19,12 @@ public class Karta {
     @Column
     private int cena;
     
+	public Karta(Long idUsera, Long idLeta, int cena) {
+		super();
+		this.idUsera = idUsera;
+		this.idLeta = idLeta;
+		this.cena = cena;
+	}
 	public Long getId() {
 		return id;
 	}

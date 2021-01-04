@@ -23,6 +23,7 @@ public class KorisnikMapper {
     	korisnikDto.setIme(korisnik.getIme());
     	korisnikDto.setPrezime(korisnik.getPrezime());
     	korisnikDto.setBrPasosa(korisnik.getBrPasosa());
+    	korisnikDto.setRank(korisnik.getRank());
         return korisnikDto;
     }
 

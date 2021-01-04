@@ -15,4 +15,6 @@ public interface KorisnickiServis {
     KorisnikDto update(Long id, RegistracijaKorisnikaDto registracijaKorisnikaDto);
 
     TokenOdgovorDto login(TokenZahtevDto tokenZahtevDto);
+    
+    void rezervacijaKarte(Long id, int milje);
 }

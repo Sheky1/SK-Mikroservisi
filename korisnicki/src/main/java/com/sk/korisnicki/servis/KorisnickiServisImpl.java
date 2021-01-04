@@ -75,4 +75,20 @@ public class KorisnickiServisImpl implements KorisnickiServis {
         //Generate token
         return new TokenOdgovorDto(tokenServis.generate(claims));
     }
+
+	@Override
+	public void rezervacijaKarte(Long id, int duzinaLeta) {
+    	Korisnik korisnik = korisnickiRepository
+                .findKorisnikById(id)
+                .orElseThrow(() -> new NotFoundException(String
+                .format("Korisnik sa id-jem: %s ne postoji.", id)));
+    	
+    	korisnik.setMilje(korisnik.getMilje() + duzinaLeta);
+    	if(korisnik.getMilje() < 1000) korisnik.setRank("Bronza");
+    	else if(korisnik.getMilje() >= 1000 && korisnik.getMilje() < 10000) korisnik.setRank("Srebro");
+    	else korisnik.setRank("Zlato");
+    	
+    	korisnickiRepository.save(korisnik);
+		
+	}
 }

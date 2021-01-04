@@ -20,19 +20,18 @@ public class LetoviServisConfiguration {
     public RestTemplate letoviServisRestTemplate() {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory("http://localhost:8081/api"));
-//        restTemplate.setInterceptors(Collections.singletonList(new TokenInterceptor()));
+        restTemplate.setInterceptors(Collections.singletonList(new TokenInterceptor()));
         return restTemplate;
     }
 
-//    private class TokenInterceptor implements ClientHttpRequestInterceptor {
-//
-//        @Override
-//        public ClientHttpResponse intercept(HttpRequest httpRequest, byte[] bytes,
-//                                            ClientHttpRequestExecution clientHttpRequestExecution) throws IOException {
-//            HttpHeaders headers = httpRequest.getHeaders();
-//            headers.add("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpZCI6MSwicm9sZSI6IlJPTEVfQURNSU4ifQ.dEuh0NrmaqBXOV5RrlIfUkTcKhXUJK0lf4gc7uanyuTmiTOdSkPEsMfB7CPt1pGOYz7JyVilV3cTs6u4IQtc7Q");
-//            return clientHttpRequestExecution.execute(httpRequest, bytes);
-//        }
-//    }
+    private class TokenInterceptor implements ClientHttpRequestInterceptor {
+
+        @Override
+        public ClientHttpResponse intercept(HttpRequest httpRequest, byte[] bytes, ClientHttpRequestExecution clientHttpRequestExecution) throws IOException {
+            HttpHeaders headers = httpRequest.getHeaders();
+            headers.add("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpZCI6MSwicm9sZSI6IlJPTEVfVVNFUiJ9.Vwb4-eF8jzqlSm4NlH-_fOn9jKHYgMagB-CH0GMqzYV5yfZQe2YDLv6yMgVBh8DNDL4ubquVIrjxyWCJSSOmKw");
+            return clientHttpRequestExecution.execute(httpRequest, bytes);
+        }
+    }
 
 }
