@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sk.letovi.dto.AvionDto;
 import com.sk.letovi.dto.KreiranjeAvionaDto;
 import com.sk.letovi.dto.LetDto;
+import com.sk.letovi.security.CheckSecurity;
 import com.sk.letovi.servis.AvionServis;
 
 @RestController
@@ -26,11 +27,13 @@ public class AvionController {
         this.avionServis = avionServis;
     }
 
+    @CheckSecurity(roles = {"ROLE_ADMIN"})
     @PostMapping
     public ResponseEntity<AvionDto> saveKorisnik(@RequestBody @Valid KreiranjeAvionaDto kreiranjeAvionaDto) {
         return new ResponseEntity<>(avionServis.add(kreiranjeAvionaDto), HttpStatus.CREATED);
     }
-    
+
+    @CheckSecurity(roles = {"ROLE_ADMIN"})
     @DeleteMapping("/{id}")
     public ResponseEntity<AvionDto> deleteLet(@PathVariable("id") Long id) {
         return new ResponseEntity<>(avionServis.delete(id), HttpStatus.OK);

@@ -24,7 +24,7 @@ public class KarticeController {
     }
 
     @PostMapping
-    public ResponseEntity<KarticaDto> saveKorisnik(@RequestBody @Valid KreiranjeKarticeDto kreiranjeKarticeDto) {
+    public ResponseEntity<KarticaDto> saveKartica(@RequestBody @Valid KreiranjeKarticeDto kreiranjeKarticeDto) {
         return new ResponseEntity<>(karticeServis.add(kreiranjeKarticeDto), HttpStatus.CREATED);
     }
 

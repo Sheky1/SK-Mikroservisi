@@ -37,7 +37,8 @@ public class KarteController {
 //    }
 
     @PostMapping
-    public ResponseEntity<KartaDto> saveLet(@RequestBody @Valid KreiranjeKarteDto kreiranjeLetaDto) {
+    @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_USER"})
+    public ResponseEntity<KartaDto> saveKarta(@RequestBody @Valid KreiranjeKarteDto kreiranjeLetaDto) {
         return new ResponseEntity<>(karteServis.add(kreiranjeLetaDto), HttpStatus.CREATED);
     }
     

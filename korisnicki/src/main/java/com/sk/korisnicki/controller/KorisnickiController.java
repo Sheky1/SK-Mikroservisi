@@ -40,6 +40,7 @@ public class KorisnickiController {
     }
 
     @GetMapping("/{id}")
+    @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_USER"})
     public ResponseEntity<KorisnikDto> getKorisnik(@PathVariable("id") Long id) {
         return new ResponseEntity<>(korisnickiServis.findKorisnik(id), HttpStatus.OK);
     }
@@ -50,6 +51,7 @@ public class KorisnickiController {
     }
 
     @PutMapping("/{id}/update")
+    @CheckSecurity(roles = {"ROLE_USER"})
     public ResponseEntity<KorisnikDto> updateKorisnik(@PathVariable("id") Long id, @RequestBody @Valid RegistracijaKorisnikaDto registracijaKorisnikaDto) {
         return new ResponseEntity<>(korisnickiServis.update(id, registracijaKorisnikaDto), HttpStatus.OK);
     }
