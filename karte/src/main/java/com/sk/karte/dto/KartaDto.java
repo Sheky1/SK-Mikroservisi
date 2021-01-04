@@ -7,6 +7,13 @@ public class KartaDto {
     private Long idLeta;
     private int cena;
     
+	public KartaDto(Long id, Long idUsera, Long idLeta, int cena) {
+		super();
+		this.id = id;
+		this.idUsera = idUsera;
+		this.idLeta = idLeta;
+		this.cena = cena;
+	}
 	public Long getId() {
 		return id;
 	}

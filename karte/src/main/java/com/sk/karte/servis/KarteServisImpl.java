@@ -48,7 +48,6 @@ public class KarteServisImpl implements KarteServis {
 		ResponseEntity<KorisnikDto> responseEntityKorisnikDto = 
 				korisnikServisRestTemplate.exchange("/korisnik/" + kreiranjeLetaDto.getIdUsera(), HttpMethod.GET, null, KorisnikDto.class);
 		
-		System.out.println(responseEntityLetDto.getBody().getCena() + " " + responseEntityKorisnikDto.getBody().getRank());
 		int cena = 0;
 		int cenaLeta = responseEntityLetDto.getBody().getCena();
 		int duzinaLeta = responseEntityLetDto.getBody().getDuzinaLeta();
@@ -65,7 +64,7 @@ public class KarteServisImpl implements KarteServis {
 			jmsTemplate.convertAndSend(rezervisanjeKarte, objectMapper.writeValueAsString(new RezervisanjeKarteDto(kreiranjeLetaDto.getIdUsera(), duzinaLeta)));
 		} catch (Exception e) {
 			e.printStackTrace();
-		} 
+		}
 		
 		return null;
 	}
