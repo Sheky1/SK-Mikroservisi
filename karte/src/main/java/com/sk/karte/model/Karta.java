@@ -18,12 +18,18 @@ public class Karta {
     private Long idLeta;
     @Column
     private int cena;
+    @Column
+    private boolean otkazanaKarta;
+    
+    public Karta() {
+    }
     
 	public Karta(Long idUsera, Long idLeta, int cena) {
 		super();
 		this.idUsera = idUsera;
 		this.idLeta = idLeta;
 		this.cena = cena;
+		this.otkazanaKarta = false;
 	}
 	public Long getId() {
 		return id;
@@ -48,6 +54,14 @@ public class Karta {
 	}
 	public void setCena(int cena) {
 		this.cena = cena;
+	}
+
+	public boolean isOtkazanaKarta() {
+		return otkazanaKarta;
+	}
+
+	public void setOtkazanaKarta(boolean otkazanaKarta) {
+		this.otkazanaKarta = otkazanaKarta;
 	}
 
 }

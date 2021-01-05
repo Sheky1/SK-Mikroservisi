@@ -1,44 +1,30 @@
 package com.sk.korisnicki.dto;
 
-public class RezervisanjeKarteDto {
+public class OtkazivanjeKarteDto {
 
-	private Long idUsera;
 	private Long idLeta;
 	private int duzinaLeta;
-
-	public RezervisanjeKarteDto() {
+	
+	public OtkazivanjeKarteDto() {
 	}
-
-	public RezervisanjeKarteDto(Long idUsera, Long idLeta, int cena) {
-		super();
-		this.idUsera = idUsera;
+	
+	public OtkazivanjeKarteDto(Long idLeta, int duzinaLeta) {
 		this.idLeta = idLeta;
-		this.duzinaLeta = cena;
-	}
-
-	public Long getIdUsera() {
-		return idUsera;
-	}
-
-	public void setIdUsera(Long idUsera) {
-		this.idUsera = idUsera;
+		this.duzinaLeta = duzinaLeta;
 	}
 	public Long getIdLeta() {
 		return idLeta;
 	}
-
 	public void setIdLeta(Long idLeta) {
 		this.idLeta = idLeta;
 	}
-
-
 	public int getDuzinaLeta() {
 		return duzinaLeta;
 	}
-
 	public void setDuzinaLeta(int duzinaLeta) {
 		this.duzinaLeta = duzinaLeta;
 	}
+	
 	
 	
 }

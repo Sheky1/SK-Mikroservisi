@@ -1,4 +1,4 @@
-package com.sk.karte.dto;
+package com.sk.korisnicki.dto;
 
 public class KartaDto {
 

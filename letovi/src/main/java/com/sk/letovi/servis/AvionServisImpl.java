@@ -34,6 +34,9 @@ public class AvionServisImpl implements AvionServis {
                 .findAvionById(id)
                 .orElseThrow(() -> new NotFoundException(String
                 .format("Korisnik sa id-jem: %s ne postoji.", id)));
+    	
+    	if(avion.getLetovi().size() != 0) throw new NotFoundException("Ma ne moz obrises ovaj avijon");
+    	
     	avionRepository.delete(avion);
     	return avionMapper.avionToAvionDto(avion);
 	}

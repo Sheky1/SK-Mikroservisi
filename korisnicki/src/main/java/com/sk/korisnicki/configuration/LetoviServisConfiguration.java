@@ -1,4 +1,4 @@
-package com.sk.karte.configuration;
+package com.sk.korisnicki.configuration;
 
 import java.io.IOException;
 import java.util.Collections;

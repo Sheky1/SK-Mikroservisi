@@ -2,6 +2,7 @@ package com.sk.letovi.mapper;
 
 import org.springframework.stereotype.Component;
 
+import com.sk.letovi.dto.AvionDto;
 import com.sk.letovi.dto.KreiranjeLetaDto;
 import com.sk.letovi.dto.LetDto;
 import com.sk.letovi.model.Let;
@@ -16,6 +17,12 @@ public class LetoviMapper {
     	letDto.setKrajnjaDestinacija(let.getKrajnjaDestinacija());
     	letDto.setDuzinaLeta(let.getDuzinaLeta());
     	letDto.setCena(let.getCena());
+    	letDto.setBrojKarata(let.getBrojKarata());
+    	AvionDto avionDto = new AvionDto();
+    	avionDto.setId(let.getAvion().getId());
+    	avionDto.setKapacitetPutnika(let.getAvion().getKapacitetPutnika());
+    	avionDto.setNaziv(let.getAvion().getNaziv());
+    	letDto.setAvionDto(avionDto);
         return letDto;
     }
 
@@ -25,6 +32,7 @@ public class LetoviMapper {
         let.setKrajnjaDestinacija(kreiranjeLetaDto.getKrajnjaDestinacija());
         let.setDuzinaLeta(kreiranjeLetaDto.getDuzinaLeta());
         let.setCena(kreiranjeLetaDto.getCena());
+        let.setOtkazanLet(false);
         return let;
 	}
 }

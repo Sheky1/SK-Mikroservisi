@@ -38,19 +38,19 @@ public class LetoviController {
 
     @GetMapping("/{id}")
     @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_USER"})
-    public ResponseEntity<LetDto> getLet(@PathVariable("id") Long id) {
+    public ResponseEntity<LetDto> getLet(@RequestHeader("Authorization") String authorization, @PathVariable("id") Long id) {
         return new ResponseEntity<>(letoviServis.findLet(id), HttpStatus.OK);
     }
 
     @PostMapping
     @CheckSecurity(roles = {"ROLE_ADMIN"})
-    public ResponseEntity<LetDto> saveLet(@RequestBody @Valid KreiranjeLetaDto kreiranjeLetaDto) {
+    public ResponseEntity<LetDto> saveLet(@RequestHeader("Authorization") String authorization, @RequestBody @Valid KreiranjeLetaDto kreiranjeLetaDto) {
         return new ResponseEntity<>(letoviServis.add(kreiranjeLetaDto), HttpStatus.CREATED);
     }
     
     @DeleteMapping("/{id}")
     @CheckSecurity(roles = {"ROLE_ADMIN"})
-    public ResponseEntity<LetDto> deleteLet(@PathVariable("id") Long id) {
+    public ResponseEntity<LetDto> deleteLet(@RequestHeader("Authorization") String authorization, @PathVariable("id") Long id) {
         return new ResponseEntity<>(letoviServis.delete(id), HttpStatus.OK);
     }
 

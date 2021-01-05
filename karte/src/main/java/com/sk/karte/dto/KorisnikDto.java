@@ -1,5 +1,7 @@
 package com.sk.karte.dto;
 
+import java.util.List;
+
 public class KorisnikDto {
 
     private Long id;
@@ -8,6 +10,7 @@ public class KorisnikDto {
     private String email;
     private String brPasosa;
     private String rank;
+    private List<KarticaDto> kartice;
     
 	public Long getId() {
 		return id;
@@ -44,6 +47,12 @@ public class KorisnikDto {
 	}
 	public void setRank(String rank) {
 		this.rank = rank;
+	}
+	public List<KarticaDto> getKartice() {
+		return kartice;
+	}
+	public void setKartice(List<KarticaDto> kartice) {
+		this.kartice = kartice;
 	}
 	
 }

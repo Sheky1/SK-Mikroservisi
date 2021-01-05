@@ -1,9 +1,14 @@
 package com.sk.korisnicki.mappers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
+import com.sk.korisnicki.dto.KarticaDto;
 import com.sk.korisnicki.dto.KorisnikDto;
 import com.sk.korisnicki.dto.RegistracijaKorisnikaDto;
+import com.sk.korisnicki.model.Kartica;
 import com.sk.korisnicki.model.Korisnik;
 import com.sk.korisnicki.repository.RoleRepository;
 
@@ -24,6 +29,17 @@ public class KorisnikMapper {
     	korisnikDto.setPrezime(korisnik.getPrezime());
     	korisnikDto.setBrPasosa(korisnik.getBrPasosa());
     	korisnikDto.setRank(korisnik.getRank());
+    	List<KarticaDto> karticeDto = new ArrayList<KarticaDto>();
+    	for (Kartica kartica: korisnik.getKartice()) {
+    		KarticaDto karticaDto = new KarticaDto();
+        	karticaDto.setId(kartica.getId());
+        	karticaDto.setImeVlasnika(kartica.getImeVlasnika());
+        	karticaDto.setPrezimeVlasnika(kartica.getPrezimeVlasnika());
+        	karticaDto.setBrKartice(kartica.getBrKartice());
+        	karticaDto.setSigurnosniBroj(kartica.getSigurnosniBroj());
+        	karticeDto.add(karticaDto);
+		}
+    	korisnikDto.setKartice(karticeDto);
         return korisnikDto;
     }
 

@@ -15,5 +15,6 @@ public interface LetoviServis {
 
     LetDto add(KreiranjeLetaDto kreiranjeLetaDto);
     LetDto delete(Long id);
+	void rezervacijaKarte(Long idLeta);
 
 }

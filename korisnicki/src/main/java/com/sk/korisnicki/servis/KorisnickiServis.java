@@ -17,4 +17,5 @@ public interface KorisnickiServis {
     TokenOdgovorDto login(TokenZahtevDto tokenZahtevDto);
     
     void rezervacijaKarte(Long id, int milje);
+	void otkazivanjeKarte(Long idLeta, int duzinaLeta);
 }

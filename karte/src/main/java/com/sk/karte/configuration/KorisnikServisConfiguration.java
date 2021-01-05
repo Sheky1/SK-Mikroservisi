@@ -11,7 +11,7 @@ public class KorisnikServisConfiguration {
     @Bean
     public RestTemplate korisnikServisRestTemplate() {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory("http://localhost:8080/api"));
+        restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory("http://localhost:8083/korisnicki-servis/api"));
         return restTemplate;
     }
 }

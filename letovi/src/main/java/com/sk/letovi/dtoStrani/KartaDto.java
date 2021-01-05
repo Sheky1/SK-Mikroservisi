@@ -1,4 +1,4 @@
-package com.sk.karte.dto;
+package com.sk.letovi.dtoStrani;
 
 public class KartaDto {
 

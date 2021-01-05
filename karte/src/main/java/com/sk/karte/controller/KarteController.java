@@ -1,5 +1,7 @@
 package com.sk.karte.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -29,22 +31,17 @@ public class KarteController {
     public KarteController(KarteServis karteServis) {
         this.karteServis = karteServis;
     }
-
-//    @GetMapping
-//    @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_USER"})
-//    public ResponseEntity<Page<KartaDto>> getAll(@RequestHeader("Authorization") String authorization, Pageable pageable) {
-//        return new ResponseEntity<>(karteServis.findAll(pageable), HttpStatus.OK);
-//    }
+    
+	@GetMapping("/let/{id}")
+	@CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_USER"})
+	public ResponseEntity<List<KartaDto>> getAll(@RequestHeader("Authorization") String authorization, @PathVariable("id") Long id) {
+	    return new ResponseEntity<>(karteServis.findByLet(id), HttpStatus.OK);
+	}
 
     @PostMapping
-    @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_USER"})
-    public ResponseEntity<KartaDto> saveKarta(@RequestBody @Valid KreiranjeKarteDto kreiranjeLetaDto) {
+    @CheckSecurity(roles = {"ROLE_USER"})
+    public ResponseEntity<KartaDto> saveKarta(@RequestHeader("Authorization") String authorization, @RequestBody @Valid KreiranjeKarteDto kreiranjeLetaDto) {
         return new ResponseEntity<>(karteServis.add(kreiranjeLetaDto), HttpStatus.CREATED);
     }
-    
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<KartaDto> deleteLet(@PathVariable("id") Long id) {
-//        return new ResponseEntity<>(karteServis.delete(id), HttpStatus.OK);
-//    }
 
 }

@@ -1,4 +1,4 @@
-package com.sk.korisnicki.listener;
+package com.sk.letovi.listener;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -8,17 +8,17 @@ import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sk.korisnicki.dto.RezervisanjeKarteDto;
-import com.sk.korisnicki.servis.KorisnickiServis;
+import com.sk.letovi.dtoStrani.RezervisanjeKarteDto;
+import com.sk.letovi.servis.LetoviServis;
 
 @Component
 public class RezervacijaKarteListener {
 	
-	private KorisnickiServis korisnickiServis;
+	private LetoviServis letoviServis;
 	private ObjectMapper objectMapper;
 
-	public RezervacijaKarteListener(KorisnickiServis korisnickiServis, ObjectMapper objectMapper) {
-		this.korisnickiServis = korisnickiServis;
+	public RezervacijaKarteListener(LetoviServis letoviServis, ObjectMapper objectMapper) {
+		this.letoviServis = letoviServis;
 		this.objectMapper = objectMapper;
 	}
 
@@ -27,7 +27,7 @@ public class RezervacijaKarteListener {
 		try {
 			String jsonText = ((TextMessage) message).getText();
 			RezervisanjeKarteDto rezervisanjeKarteDto = objectMapper.readValue(jsonText, RezervisanjeKarteDto.class);
-			korisnickiServis.rezervacijaKarte(rezervisanjeKarteDto.getIdUsera(), rezervisanjeKarteDto.getDuzinaLeta());
+			letoviServis.rezervacijaKarte(rezervisanjeKarteDto.getIdLeta());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

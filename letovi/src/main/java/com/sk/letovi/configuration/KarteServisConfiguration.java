@@ -1,4 +1,4 @@
-package com.sk.karte.configuration;
+package com.sk.letovi.configuration;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -14,12 +14,12 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
 @Configuration
-public class LetoviServisConfiguration {
+public class KarteServisConfiguration {
 
     @Bean
-    public RestTemplate letoviServisRestTemplate() {
+    public RestTemplate karteServisRestTemplate() {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory("http://localhost:8083/letovi-servis/api"));
+        restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory("http://localhost:8083/karte-servis/api"));
         restTemplate.setInterceptors(Collections.singletonList(new TokenInterceptor()));
         return restTemplate;
     }
@@ -29,10 +29,7 @@ public class LetoviServisConfiguration {
         @Override
         public ClientHttpResponse intercept(HttpRequest httpRequest, byte[] bytes, ClientHttpRequestExecution clientHttpRequestExecution) throws IOException {
         	HttpHeaders headers = httpRequest.getHeaders();
-            System.out.println(headers);
             headers.add("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpZCI6MSwicm9sZSI6IlJPTEVfQURNSU4ifQ.dEuh0NrmaqBXOV5RrlIfUkTcKhXUJK0lf4gc7uanyuTmiTOdSkPEsMfB7CPt1pGOYz7JyVilV3cTs6u4IQtc7Q");
-
-            System.out.println(headers);
             return clientHttpRequestExecution.execute(httpRequest, bytes);
         }
     }

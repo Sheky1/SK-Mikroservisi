@@ -7,6 +7,8 @@ public class LetDto {
 	private String krajnjaDestinacija;
     private int duzinaLeta;
     private int cena;
+    private int brojKarata;
+    private AvionDto avionDto;
     
 	public Long getId() {
 		return id;
@@ -37,5 +39,17 @@ public class LetDto {
 	}
 	public void setCena(int cena) {
 		this.cena = cena;
+	}
+	public int getBrojKarata() {
+		return brojKarata;
+	}
+	public void setBrojKarata(int brojKarata) {
+		this.brojKarata = brojKarata;
+	}
+	public AvionDto getAvionDto() {
+		return avionDto;
+	}
+	public void setAvionDto(AvionDto avionDto) {
+		this.avionDto = avionDto;
 	}
 }
