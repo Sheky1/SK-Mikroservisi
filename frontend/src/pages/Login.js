@@ -23,16 +23,15 @@ class Login extends React.Component {
 
     onLogin = (event) => {
         event.preventDefault();
-        this.props.history.push("/home-user/");
-        // this.props.initiateLogin({
-        //     email: this.state.email,
-        //     sifra: this.state.sifra,
-        //     history: this.props.history,
-        // });
-        // setTimeout(() => {
-        //     if (this.props.user.isLogged === false)
-        //         console.log("NIJE ULOGOVAN");
-        // }, 1200);
+        this.props.initiateLogin({
+            email: this.state.email,
+            sifra: this.state.sifra,
+            history: this.props.history,
+        });
+        setTimeout(() => {
+            if (this.props.user.isLogged === false)
+                console.log("NIJE ULOGOVAN");
+        }, 1200);
     };
 
     render() {

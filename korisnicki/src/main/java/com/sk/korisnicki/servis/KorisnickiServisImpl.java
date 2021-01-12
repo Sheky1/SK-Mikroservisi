@@ -80,13 +80,22 @@ public class KorisnickiServisImpl implements KorisnickiServis {
 
     @Override
     public TokenOdgovorDto login(TokenZahtevDto tokenZahtevDto) {
+    	System.out.println(tokenZahtevDto);
     	Korisnik korisnik = korisnickiRepository
                 .findKorisnikByEmailAndSifra(tokenZahtevDto.getEmail(), tokenZahtevDto.getSifra())
                 .orElseThrow(() -> new NotFoundException(String
                 .format("Korisnik sa email-om: %s i sifrom: %s ne postoji.", tokenZahtevDto.getEmail(), tokenZahtevDto.getSifra())));
+    	System.out.println("Ulogovao");
         Claims claims = Jwts.claims();
         claims.put("id", korisnik.getId());
+        claims.put("ime", korisnik.getIme());
+        claims.put("prezime", korisnik.getPrezime());
+        claims.put("rank", korisnik.getRank());
+        claims.put("milje", korisnik.getMilje());
+//        claims.put("kartice", korisnik.getKartice());
         claims.put("role", korisnik.getRole().getNaziv());
+        claims.put("email", korisnik.getEmail());
+        claims.put("brPasosa", korisnik.getBrPasosa());
         //Generate token
         return new TokenOdgovorDto(tokenServis.generate(claims));
     }

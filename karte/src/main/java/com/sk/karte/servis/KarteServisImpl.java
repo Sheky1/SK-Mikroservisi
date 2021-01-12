@@ -6,14 +6,18 @@ import java.util.Optional;
 
 import org.apache.activemq.command.ActiveMQTopic;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jms.JmsException;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sk.karte.dto.KartaDto;
 import com.sk.karte.dto.KarticaDto;
@@ -52,8 +56,12 @@ public class KarteServisImpl implements KarteServis {
 
 	@Override
 	public KartaDto add(KreiranjeKarteDto kreiranjeKarteDto) {
+		HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.TEXT_PLAIN);
+	    headers.add("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpZCI6MSwicm9sZSI6IlJPTEVfQURNSU4ifQ.dEuh0NrmaqBXOV5RrlIfUkTcKhXUJK0lf4gc7uanyuTmiTOdSkPEsMfB7CPt1pGOYz7JyVilV3cTs6u4IQtc7Q");
+	    HttpEntity<String> entity = new HttpEntity<String>(headers);
 		ResponseEntity<KorisnikDto> responseEntityKorisnikDto = 
-				korisnikServisRestTemplate.exchange("/korisnik/" + kreiranjeKarteDto.getIdUsera(), HttpMethod.GET, null, KorisnikDto.class);
+				korisnikServisRestTemplate.exchange("/korisnik/" + kreiranjeKarteDto.getIdUsera(), HttpMethod.GET, entity, KorisnikDto.class);
 		
 		System.out.println(kreiranjeKarteDto.getIdKartice());
 		if(kreiranjeKarteDto.getIdKartice() == null) throw new NotFoundException("Mora uneses karticu");
@@ -62,9 +70,13 @@ public class KarteServisImpl implements KarteServis {
 			if(kartica.getId() == kreiranjeKarteDto.getIdKartice()) flag = 1;
 		}
 		if(flag == 0) throw new NotFoundException("Nema te kartice");
-		
+
+		HttpHeaders headers2 = new HttpHeaders();
+	    headers2.setContentType(MediaType.TEXT_PLAIN);
+	    headers2.add("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpZCI6MSwicm9sZSI6IlJPTEVfQURNSU4ifQ.dEuh0NrmaqBXOV5RrlIfUkTcKhXUJK0lf4gc7uanyuTmiTOdSkPEsMfB7CPt1pGOYz7JyVilV3cTs6u4IQtc7Q");
+	    HttpEntity<String> entity2 = new HttpEntity<String>(headers2);
 		ResponseEntity<LetDto> responseEntityLetDto = 
-				letoviServisRestTemplate.exchange("/letovi/" + kreiranjeKarteDto.getIdLeta(), HttpMethod.GET, null, LetDto.class);
+				letoviServisRestTemplate.exchange("/letovi/" + kreiranjeKarteDto.getIdLeta(), HttpMethod.GET, entity2, LetDto.class);
 		
 		if(responseEntityLetDto.getBody().getBrojKarata() >= responseEntityLetDto.getBody().getAvionDto().getKapacitetPutnika()) {
 			throw new NotFoundException("kapacitet je pun ne moze da se doda karta");
@@ -89,12 +101,16 @@ public class KarteServisImpl implements KarteServis {
 			e.printStackTrace();
 		}
 		
-		return null;
+		return karteMapper.kartaToKartaDto(novaKarta);
 	}
 
 	@Override
 	public List<KartaDto> findByLet(Long idLeta) {
 		Optional<List<Karta>> lista = karteRepository.findByIdLeta(idLeta);
+		if(lista.isEmpty()) {
+			System.out.println("ALOOOOOOOOO");
+			return new ArrayList<KartaDto>();
+		}
 		System.out.println(idLeta);
 		System.out.println(lista.get());
 		List<Karta> nova = lista.get();
@@ -109,12 +125,38 @@ public class KarteServisImpl implements KarteServis {
 	public void otkazivanjeKarte(Long idLeta, int duzinaLeta) {
 		Optional<List<Karta>> lista = karteRepository.findByIdLeta(idLeta);
 		System.out.println(idLeta);
+		System.out.println(lista);
 		System.out.println(lista.get());
 		List<Karta> nova = lista.get();
 		for (Karta karta : nova) {
 			karta.setOtkazanaKarta(true);
 			karteRepository.save(karta);
 		}
+	}
+
+	@Override
+	public Page<KartaDto> findByKorisnik(Long idKorisnika, Pageable pageable) {
+		Page<KartaDto> lista = karteRepository.findByIdUsera(pageable, idKorisnika).map(karteMapper::kartaToKartaDto);
+		System.out.println(lista.getSort() + "--->sort");
+		
+		if(lista.isEmpty()) {
+			System.out.println("ALOOOOOOOOO");
+			return new PageImpl<KartaDto>(new ArrayList<KartaDto>());
+		}
+		List<KartaDto> listaSvihKarata = new ArrayList<KartaDto>();
+		for (KartaDto kartaDto : lista) {
+			listaSvihKarata.add(kartaDto);
+			System.out.println(kartaDto);
+		}
+		List<KartaDto> zaVracanje = new ArrayList<KartaDto>();
+		for (KartaDto karta : listaSvihKarata) {
+			if(!karta.isOtkazanaKarta()) zaVracanje.add(karta);
+		}
+		System.out.println(zaVracanje + "vracanje");
+
+		Page<KartaDto> karte = new PageImpl<KartaDto>(zaVracanje);
+		
+		return karte;
 	}
 
 }

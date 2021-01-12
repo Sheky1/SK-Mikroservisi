@@ -1,5 +1,8 @@
 package com.sk.karte.model;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,6 +23,8 @@ public class Karta {
     private int cena;
     @Column
     private boolean otkazanaKarta;
+    @Column
+    private String datumKreiranja;
     
     public Karta() {
     }
@@ -30,6 +35,9 @@ public class Karta {
 		this.idLeta = idLeta;
 		this.cena = cena;
 		this.otkazanaKarta = false;
+		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z\"");
+		Date date = new Date(System.currentTimeMillis());
+		this.datumKreiranja = formatter.format(date);
 	}
 	public Long getId() {
 		return id;

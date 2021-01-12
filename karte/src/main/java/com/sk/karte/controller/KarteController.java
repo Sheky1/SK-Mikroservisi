@@ -32,6 +32,12 @@ public class KarteController {
         this.karteServis = karteServis;
     }
     
+	@GetMapping("/korisnik/{id}")
+	@CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_USER"})
+	public ResponseEntity<Page<KartaDto>> getAllByKorisnik(@RequestHeader("Authorization") String authorization, @PathVariable("id") Long id, Pageable pageable) {
+	    return new ResponseEntity<>(karteServis.findByKorisnik(id, pageable), HttpStatus.OK);
+	}
+    
 	@GetMapping("/let/{id}")
 	@CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_USER"})
 	public ResponseEntity<List<KartaDto>> getAll(@RequestHeader("Authorization") String authorization, @PathVariable("id") Long id) {

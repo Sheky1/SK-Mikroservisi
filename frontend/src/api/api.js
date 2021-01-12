@@ -5,27 +5,36 @@ const headers_default = () => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${atob(localStorage.token)}`,
         Accept: "application/json",
-        "X-Api-Key": `adb69d232d124c98fe20400d9a4757d71380ba1d4200697e6817c99a30959ed2`,
+        "Access-Control-Allow-Origin": "Mahmood",
     };
 };
 
-export const api_axios = (method, query, data, headers = headers_default()) => {
+export const api_axios = (
+    method,
+    query,
+    service,
+    data,
+    headers = headers_default()
+) => {
     // console.log(query);
+    // console.log(headers)
     return axios({
         method: `${method}`,
-        url: `https://localhost:8761/api${query}`,
+        url: `http://localhost:8083${service}/api${query}`,
         data: data,
         headers: headers,
     });
 };
 
-export const params_axios = (query, params, headers = headers_default()) => {
+export const params_axios = (
+    query,
+    service,
+    params,
+    headers = headers_default()
+) => {
     // console.log(query);
-    return axios.get(
-        `https://miljanpeles.com/renter_backend/public/api${query}`,
-        {
-            params,
-            headers,
-        }
-    );
+    return axios.get(`http://localhost:8083${service}/api${query}`, {
+        params,
+        headers,
+    });
 };

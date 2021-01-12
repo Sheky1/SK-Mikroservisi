@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sk.letovi.dto.FilterLetaDto;
 import com.sk.letovi.dto.KreiranjeLetaDto;
 import com.sk.letovi.dto.LetDto;
 import com.sk.letovi.dtoStrani.KartaDto;
@@ -49,6 +50,25 @@ public class LetoviServisImpl implements LetoviServis {
         this.otkazivanjeKarte = otkazivanjeKarte;
         this.objectMapper = objectMapper;
     }
+
+	@Override
+	public Page<LetDto> findAllAdmin(Pageable pageable) {
+		Page<LetDto> sviLetovi = letoviRepository.findAll(pageable).map(letoviMapper::letToLetDto);
+		System.out.println(sviLetovi);
+		List<LetDto> listaSvihLetova = new ArrayList<LetDto>();
+		for (LetDto letDto : sviLetovi) {
+			listaSvihLetova.add(letDto);
+			System.out.println(letDto);
+		}
+		List<LetDto> listaZaIzbacivanje = new ArrayList<LetDto>();
+		for (LetDto letDto : listaSvihLetova) {
+			if(letDto.isOtkazanLet()) listaZaIzbacivanje.add(letDto);
+		}
+		listaSvihLetova.removeAll(listaZaIzbacivanje);
+		Page<LetDto> letovi = new PageImpl<LetDto>(listaSvihLetova);
+		
+        return letovi;
+	}
     
 	@Override
 	public Page<LetDto> findAll(Pageable pageable) {
@@ -61,9 +81,65 @@ public class LetoviServisImpl implements LetoviServis {
 		}
 		List<LetDto> listaZaIzbacivanje = new ArrayList<LetDto>();
 		for (LetDto letDto : listaSvihLetova) {
-			if(letDto.getBrojKarata() == letDto.getAvionDto().getKapacitetPutnika()) listaZaIzbacivanje.add(letDto);
+			if(letDto.isOtkazanLet()) listaZaIzbacivanje.add(letDto);
+			if(!letDto.isOtkazanLet() && letDto.getBrojKarata() == letDto.getAvionDto().getKapacitetPutnika()) listaZaIzbacivanje.add(letDto);
 		}
 		listaSvihLetova.removeAll(listaZaIzbacivanje);
+		Page<LetDto> letovi = new PageImpl<LetDto>(listaSvihLetova);
+		
+        return letovi;
+	}
+
+	@Override
+	public Page<LetDto> findAllByParams(Pageable pageable, FilterLetaDto kreiranjeLetaDto) {
+		System.out.println("Parametri " + kreiranjeLetaDto.getPocetnaDestinacija() + " " + kreiranjeLetaDto.getKrajnjaDestinacija() + " "
+				+ kreiranjeLetaDto.getCena());
+		System.out.println(kreiranjeLetaDto);
+		Page<LetDto> sviLetovi = letoviRepository.findAll(pageable).map(letoviMapper::letToLetDto);
+		System.out.println("Svi letovi" + sviLetovi);
+		System.out.println("Parametri " + kreiranjeLetaDto.getPocetnaDestinacija() + " " + kreiranjeLetaDto.getKrajnjaDestinacija() + " "
+					+ kreiranjeLetaDto.getCena());
+		List<LetDto> listaSvihLetova = new ArrayList<LetDto>();
+		for (LetDto letDto : sviLetovi) {
+			listaSvihLetova.add(letDto);
+			System.out.println(letDto);
+		}
+		List<LetDto> listaZaIzbacivanje = new ArrayList<LetDto>();
+		for (LetDto letDto : listaSvihLetova) {
+			if(letDto.isOtkazanLet()) listaZaIzbacivanje.add(letDto);
+			if(!letDto.isOtkazanLet() && letDto.getBrojKarata() == letDto.getAvionDto().getKapacitetPutnika()) listaZaIzbacivanje.add(letDto);
+		}
+		listaSvihLetova.removeAll(listaZaIzbacivanje);
+		
+		listaZaIzbacivanje.clear();
+		if(kreiranjeLetaDto.getPocetnaDestinacija() != null) {
+			for (LetDto letDto : listaSvihLetova) {
+				if(!kreiranjeLetaDto.getPocetnaDestinacija().equals(letDto.getPocetnaDestinacija())) listaZaIzbacivanje.add(letDto);
+			}
+		}
+		listaSvihLetova.removeAll(listaZaIzbacivanje);
+		listaZaIzbacivanje.clear();
+		if(kreiranjeLetaDto.getKrajnjaDestinacija() != null) {
+			for (LetDto letDto : listaSvihLetova) {
+				if(!kreiranjeLetaDto.getKrajnjaDestinacija().equals(letDto.getKrajnjaDestinacija())) listaZaIzbacivanje.add(letDto);
+			}
+		}
+		listaSvihLetova.removeAll(listaZaIzbacivanje);
+		listaZaIzbacivanje.clear();
+		if(kreiranjeLetaDto.getCena() != 0) {
+			for (LetDto letDto : listaSvihLetova) {
+				if(!(kreiranjeLetaDto.getCena() == letDto.getCena())) listaZaIzbacivanje.add(letDto);
+			}
+		}
+		listaSvihLetova.removeAll(listaZaIzbacivanje);
+		listaZaIzbacivanje.clear();
+		if(kreiranjeLetaDto.getDuzinaLeta() != 0) {
+			for (LetDto letDto : listaSvihLetova) {
+				if(!(kreiranjeLetaDto.getDuzinaLeta() == letDto.getDuzinaLeta())) listaZaIzbacivanje.add(letDto);
+			}
+		}
+		listaSvihLetova.removeAll(listaZaIzbacivanje);
+		
 		Page<LetDto> letovi = new PageImpl<LetDto>(listaSvihLetova);
 		
         return letovi;
@@ -112,8 +188,6 @@ public class LetoviServisImpl implements LetoviServis {
 		
     	List<KartaDto> listaKarata = responseEntityKarteDto.getBody();
     	if(listaKarata.size() != 0) {
-    		let.setOtkazanLet(true);
-
     		try {
     			jmsTemplate.convertAndSend(new ActiveMQTopic(otkazivanjeKarte), objectMapper.writeValueAsString(new OtkazivanjeKarteDto(id, let.getDuzinaLeta())));
     		} catch (Exception e) {
@@ -121,10 +195,12 @@ public class LetoviServisImpl implements LetoviServis {
     		}
     	}
 		
-		
+
+		let.setOtkazanLet(true);
     	avion.getLetovi().remove(let);
     	avionRepository.save(avion);
-    	let.setOtkazanLet(true);
+    	let.setAvion(null);
+    	letoviRepository.save(let);
     	return letoviMapper.letToLetDto(let);
 	}
 

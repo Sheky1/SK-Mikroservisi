@@ -1,5 +1,9 @@
 package com.sk.korisnicki.servis;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import com.sk.korisnicki.dto.KarticaDto;
@@ -39,6 +43,24 @@ public class KarticeServisImpl implements KarticeServis {
         korisnickiRepository.save(korisnik);
         
         return karticaMapper.karticaToKarticaDto(novaKartica);
+	}
+
+	@Override
+	public List<KarticaDto> findByKorisnik(Long idKorisnika) {
+		Optional<List<Kartica>> lista = karticeRepository.findByKorisnikId(idKorisnika);
+		if(lista.isEmpty()) {
+			System.out.println("ALOOOOOOOOO");
+			return new ArrayList<KarticaDto>();
+		}
+		System.out.println(idKorisnika);
+		System.out.println(lista.get());
+		List<Kartica> nova = lista.get();
+		List<KarticaDto> zaVracanje = new ArrayList<KarticaDto>();
+		for (Kartica kartica : nova) {
+			zaVracanje.add(karticaMapper.karticaToKarticaDto(kartica));
+		}
+		System.out.println(zaVracanje + "vracanje");
+		return zaVracanje;
 	}
 
 }

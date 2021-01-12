@@ -1,24 +1,14 @@
 package com.sk.letovi.dto;
 
-import javax.persistence.Column;
+import javax.validation.constraints.NotBlank;
 
-public class LetDto {
+public class FilterLetaDto {
 	
-    private Long id;
 	private String pocetnaDestinacija;
+	@NotBlank
 	private String krajnjaDestinacija;
     private int duzinaLeta;
     private int cena;
-    private int brojKarata;
-    private AvionDto avionDto;
-    private boolean otkazanLet;
-    
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
 	public String getPocetnaDestinacija() {
 		return pocetnaDestinacija;
 	}
@@ -40,25 +30,8 @@ public class LetDto {
 	public int getCena() {
 		return cena;
 	}
-	public boolean isOtkazanLet() {
-		return otkazanLet;
-	}
-	public void setOtkazanLet(boolean otkazanLet) {
-		this.otkazanLet = otkazanLet;
-	}
 	public void setCena(int cena) {
 		this.cena = cena;
 	}
-	public int getBrojKarata() {
-		return brojKarata;
-	}
-	public void setBrojKarata(int brojKarata) {
-		this.brojKarata = brojKarata;
-	}
-	public AvionDto getAvionDto() {
-		return avionDto;
-	}
-	public void setAvionDto(AvionDto avionDto) {
-		this.avionDto = avionDto;
-	}
+
 }

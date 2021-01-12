@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Col, Form, FormGroup, Label, Input } from "reactstrap";
 import { Link } from "react-router-dom";
+import { api_axios } from "../api/api";
 
 export default class HomeUser extends Component {
     constructor() {
@@ -10,9 +11,35 @@ export default class HomeUser extends Component {
             ime: "",
             prezime: "",
             sifra: "",
-            pasos: "",
+            brPasosa: "",
         };
     }
+
+    handleChange = (event) => {
+        const { name, value } = event.target;
+
+        this.setState({
+            [name]: value,
+        });
+    };
+
+    onSubmit = () => {
+        try {
+            const headers = {
+                "Content-Type": "application/json",
+            };
+            api_axios(
+                "post",
+                "/korisnik",
+                "/korisnicki-servis",
+                this.state,
+                headers
+            );
+            this.props.history.push("/");
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     render() {
         return (
@@ -36,7 +63,7 @@ export default class HomeUser extends Component {
                                 id="ime"
                                 value={this.state.ime}
                                 onChange={(e) => {
-                                    this.state.handleChange(e);
+                                    this.handleChange(e);
                                 }}
                             />
                         </Col>
@@ -47,12 +74,12 @@ export default class HomeUser extends Component {
                         </Label>
                         <Col sm={8}>
                             <Input
-                                type="number"
+                                type="text"
                                 name="prezime"
                                 id="prezime"
                                 value={this.state.prezime}
                                 onChange={(e) => {
-                                    this.state.handleChange(e);
+                                    this.handleChange(e);
                                 }}
                             />
                         </Col>
@@ -63,28 +90,28 @@ export default class HomeUser extends Component {
                         </Label>
                         <Col sm={8}>
                             <Input
-                                type="number"
+                                type="text"
                                 name="email"
                                 id="email"
                                 value={this.state.email}
                                 onChange={(e) => {
-                                    this.state.handleChange(e);
+                                    this.handleChange(e);
                                 }}
                             />
                         </Col>
                     </FormGroup>
                     <FormGroup row style={{ width: "100%" }}>
-                        <Label for="pasos" sm={4}>
+                        <Label for="brPasosa" sm={4}>
                             Broj pasosa:
                         </Label>
                         <Col sm={8}>
                             <Input
-                                type="number"
-                                name="pasos"
-                                id="pasos"
-                                value={this.state.pasos}
+                                type="text"
+                                name="brPasosa"
+                                id="brPasosa"
+                                value={this.state.brPasosa}
                                 onChange={(e) => {
-                                    this.state.handleChange(e);
+                                    this.handleChange(e);
                                 }}
                             />
                         </Col>
@@ -95,17 +122,26 @@ export default class HomeUser extends Component {
                         </Label>
                         <Col sm={8}>
                             <Input
-                                type="number"
+                                type="text"
                                 name="sifra"
                                 id="sifra"
                                 value={this.state.sifra}
                                 onChange={(e) => {
-                                    this.state.handleChange(e);
+                                    this.handleChange(e);
                                 }}
                             />
                         </Col>
                     </FormGroup>
                 </Form>
+
+                <button
+                    className="btn-primary"
+                    type="submit"
+                    style={{ marginRight: "20px" }}
+                    onClick={this.onSubmit}
+                >
+                    Potvrdi
+                </button>
                 <Link to="/">Nazad na login</Link>
             </div>
         );

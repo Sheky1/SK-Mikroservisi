@@ -17,12 +17,19 @@ public class LetoviMapper {
     	letDto.setKrajnjaDestinacija(let.getKrajnjaDestinacija());
     	letDto.setDuzinaLeta(let.getDuzinaLeta());
     	letDto.setCena(let.getCena());
+    	letDto.setOtkazanLet(let.isOtkazanLet());
     	letDto.setBrojKarata(let.getBrojKarata());
-    	AvionDto avionDto = new AvionDto();
-    	avionDto.setId(let.getAvion().getId());
-    	avionDto.setKapacitetPutnika(let.getAvion().getKapacitetPutnika());
-    	avionDto.setNaziv(let.getAvion().getNaziv());
-    	letDto.setAvionDto(avionDto);
+    	if(!let.isOtkazanLet()) {
+    		AvionDto avionDto = new AvionDto();
+        	avionDto.setId(let.getAvion().getId());
+        	avionDto.setKapacitetPutnika(let.getAvion().getKapacitetPutnika());
+        	avionDto.setNaziv(let.getAvion().getNaziv());
+        	letDto.setAvionDto(avionDto);
+    	}
+    	else {
+    		letDto.setAvionDto(null);
+    	}
+    	
         return letDto;
     }
 

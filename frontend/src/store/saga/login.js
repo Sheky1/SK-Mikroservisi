@@ -1,34 +1,52 @@
 import { put } from "redux-saga/effects";
 import { api_axios } from "../../api/api";
-
+import jwt_decode from "jwt-decode";
 import * as actions from "../actions/index";
 
 export function* login(action) {
     const headers = {
         "Content-Type": "application/json",
-        "X-Api-Key": `adb69d232d124c98fe20400d9a4757d71380ba1d4200697e6817c99a30959ed2`,
     };
     try {
         const apiUser = {
             email: action.payload.email,
             sifra: action.payload.sifra,
         };
-        const response = yield api_axios("post", "/login", apiUser, headers);
-
-        yield put(
-            actions.loginUser({
-                isLogged: true,
-                loggedUser: response.data.user,
-            })
+        const response = yield api_axios(
+            "post",
+            "/korisnik/login",
+            "/korisnicki-servis",
+            apiUser,
+            headers
         );
         const token = btoa(response.data.token);
         localStorage.setItem("token", token);
 
-        if (response.data.user.role.name === "korisnik") {
-            action.payload.history.push("/home-korisnik/");
-        } else action.payload.history.push("/home-admin/");
+        const decoded = jwt_decode(atob(localStorage.token));
+
+        yield put(
+            actions.loginUser({
+                isLogged: true,
+                loggedUser: {
+                    ime: decoded.ime,
+                    prezime: decoded.prezime,
+                    milje: decoded.milje,
+                    rank: decoded.rank,
+                    role: decoded.role,
+                    id: decoded.id,
+                    kartice: decoded.kartice,
+                    email: decoded.email,
+                    brPasosa: decoded.brPasosa,
+                },
+            })
+        );
+
+        // if (response.data.user.role.name === "korisnik") {
+        //     action.payload.history.push("/home-korisnik/");
+        // } else action.payload.history.push("/home-admin/");
+        action.payload.history.push("/home-user/");
     } catch (error) {
-        console.log(error.response.data);
+        console.log(error);
     }
 }
 
@@ -50,7 +68,6 @@ export function* getUser() {
 
 export function* logout() {
     try {
-        yield api_axios("post", "/logout", null);
         yield put(
             actions.loginUser({
                 isLogged: false,
@@ -58,6 +75,6 @@ export function* logout() {
             })
         );
     } catch (error) {
-        console.log(error.response.data);
+        console.log(error.response);
     }
 }

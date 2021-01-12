@@ -53,6 +53,7 @@ public class KorisnikMapper {
         korisnik.setBrPasosa(registracijaKorisnikaDto.getBrPasosa());
         korisnik.setSifra(registracijaKorisnikaDto.getSifra());
         korisnik.setRole(roleRepository.findRoleByNaziv("ROLE_USER").get());
+        korisnik.setKartice(new ArrayList<Kartica>());
         return korisnik;
     }
 

@@ -13,7 +13,8 @@ import org.springframework.web.filter.CorsFilter;
 @EnableZuulProxy
 public class ApiGatewayApplication {
 
-    @Bean
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	@Bean
     public FilterRegistrationBean corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();

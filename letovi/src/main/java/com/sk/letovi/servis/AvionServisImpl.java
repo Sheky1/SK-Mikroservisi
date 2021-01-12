@@ -1,6 +1,9 @@
 package com.sk.letovi.servis;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 import com.sk.letovi.dto.AvionDto;
 import com.sk.letovi.dto.KreiranjeAvionaDto;
 import com.sk.letovi.dto.LetDto;
@@ -19,6 +22,11 @@ public class AvionServisImpl implements AvionServis {
     public AvionServisImpl(AvionRepository avionRepository, AvionMapper avionMapper) {
         this.avionRepository = avionRepository;
         this.avionMapper = avionMapper;
+    }
+
+    @Override
+    public Page<AvionDto> findAll(Pageable pageable) {
+        return avionRepository.findAll(pageable).map(avionMapper::avionToAvionDto);
     }
 
 	@Override

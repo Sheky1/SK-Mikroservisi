@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sk.letovi.dto.FilterLetaDto;
 import com.sk.letovi.dto.KreiranjeLetaDto;
 import com.sk.letovi.dto.LetDto;
 import com.sk.letovi.security.CheckSecurity;
@@ -34,6 +35,18 @@ public class LetoviController {
     @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_USER"})
     public ResponseEntity<Page<LetDto>> getAll(@RequestHeader("Authorization") String authorization, Pageable pageable) {
         return new ResponseEntity<>(letoviServis.findAll(pageable), HttpStatus.OK);
+    }
+
+    @GetMapping("/admin")
+    @CheckSecurity(roles = {"ROLE_ADMIN"})
+    public ResponseEntity<Page<LetDto>> getAllAdmin(@RequestHeader("Authorization") String authorization, Pageable pageable) {
+        return new ResponseEntity<>(letoviServis.findAllAdmin(pageable), HttpStatus.OK);
+    }
+
+    @PostMapping("/params")
+    @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_USER"})
+    public ResponseEntity<Page<LetDto>> getAllByParams(@RequestHeader("Authorization") String authorization, Pageable pageable,@RequestBody FilterLetaDto kreiranjeLetaDto) {
+        return new ResponseEntity<>(letoviServis.findAllByParams(pageable, kreiranjeLetaDto), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
