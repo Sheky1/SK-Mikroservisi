@@ -8,6 +8,7 @@ import com.sk.letovi.dto.AvionDto;
 import com.sk.letovi.dto.KreiranjeAvionaDto;
 import com.sk.letovi.dto.LetDto;
 import com.sk.letovi.exceptions.NotFoundException;
+import com.sk.letovi.exceptions.NotValidException;
 import com.sk.letovi.mapper.AvionMapper;
 import com.sk.letovi.model.Avion;
 import com.sk.letovi.model.Let;
@@ -41,9 +42,9 @@ public class AvionServisImpl implements AvionServis {
     	Avion avion= avionRepository
                 .findAvionById(id)
                 .orElseThrow(() -> new NotFoundException(String
-                .format("Korisnik sa id-jem: %s ne postoji.", id)));
+                .format("Avion sa id-jem: %s ne postoji.", id)));
     	
-    	if(avion.getLetovi().size() != 0) throw new NotFoundException("Ma ne moz obrises ovaj avijon");
+    	if(avion.getLetovi().size() != 0) throw new NotValidException("Ne mozete obrisati avion jer postoje letovi vezani za njega");
     	
     	avionRepository.delete(avion);
     	return avionMapper.avionToAvionDto(avion);

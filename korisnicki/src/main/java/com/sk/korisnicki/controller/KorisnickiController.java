@@ -17,6 +17,7 @@ import com.sk.korisnicki.dto.KorisnikDto;
 import com.sk.korisnicki.dto.RegistracijaKorisnikaDto;
 import com.sk.korisnicki.dto.TokenOdgovorDto;
 import com.sk.korisnicki.dto.TokenZahtevDto;
+import com.sk.korisnicki.dto.UpdateKorisnikaDto;
 import com.sk.korisnicki.security.CheckSecurity;
 
 import javax.validation.Valid;
@@ -40,6 +41,11 @@ public class KorisnickiController {
     public ResponseEntity<Page<KorisnikDto>> getAll(@RequestHeader("Authorization") String authorization, Pageable pageable) {
         return new ResponseEntity<>(korisnickiServis.findAll(pageable), HttpStatus.OK);
     }
+    
+   @GetMapping("/verif/{id}")
+   public ResponseEntity<KorisnikDto> getAll(@PathVariable("id") Long id) {
+       return new ResponseEntity<>(korisnickiServis.verifikacija(id), HttpStatus.OK);
+   }
 
     @GetMapping("/{id}")
     @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_USER"})
@@ -54,7 +60,7 @@ public class KorisnickiController {
 
     @PutMapping("/{id}/update")
     @CheckSecurity(roles = {"ROLE_USER"})
-    public ResponseEntity<KorisnikDto> updateKorisnik(@RequestHeader("Authorization") String authorization, @PathVariable("id") Long id, @RequestBody @Valid RegistracijaKorisnikaDto registracijaKorisnikaDto) {
+    public ResponseEntity<KorisnikDto> updateKorisnik(@RequestHeader("Authorization") String authorization, @PathVariable("id") Long id, @RequestBody @Valid UpdateKorisnikaDto registracijaKorisnikaDto) {
         return new ResponseEntity<>(korisnickiServis.update(id, registracijaKorisnikaDto), HttpStatus.OK);
     }
 

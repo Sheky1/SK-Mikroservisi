@@ -150,7 +150,7 @@ public class LetoviServisImpl implements LetoviServis {
 		Let let= letoviRepository
 			    .findLetById(id)
 			    .orElseThrow(() -> new NotFoundException(String
-			    .format("Korisnik sa id-jem: %s ne postoji.", id)));
+			    .format("Let sa id-jem: %s ne postoji.", id)));
 		return letoviMapper.letToLetDto(let);
 	}
 
@@ -159,7 +159,7 @@ public class LetoviServisImpl implements LetoviServis {
     	Avion avion = avionRepository
                 .findAvionById(kreiranjeLetaDto.getIdAviona())
                 .orElseThrow(() -> new NotFoundException(String
-                .format("Korisnik sa id-jem: %s ne postoji.", kreiranjeLetaDto.getIdAviona())));
+                .format("Avion sa id-jem: %s ne postoji.", kreiranjeLetaDto.getIdAviona())));
     	
         Let novLet = letoviMapper.kreiranjeLetaDtoToLet(kreiranjeLetaDto);
         novLet.setAvion(avion);
@@ -176,11 +176,11 @@ public class LetoviServisImpl implements LetoviServis {
     	Let let= letoviRepository
                 .findLetById(id)
                 .orElseThrow(() -> new NotFoundException(String
-                .format("Korisnik sa id-jem: %s ne postoji.", id)));
+                .format("Let sa id-jem: %s ne postoji.", id)));
     	Avion avion = avionRepository
                 .findAvionById(let.getAvion().getId())
                 .orElseThrow(() -> new NotFoundException(String
-                .format("Korisnik sa id-jem: %s ne postoji.", let.getAvion().getId())));
+                .format("Avion sa id-jem: %s ne postoji.", let.getAvion().getId())));
     	
 		@SuppressWarnings("unchecked")
 		ResponseEntity<List<KartaDto>> responseEntityKarteDto = 
@@ -209,7 +209,7 @@ public class LetoviServisImpl implements LetoviServis {
     	Let let= letoviRepository
                 .findLetById(idLeta)
                 .orElseThrow(() -> new NotFoundException(String
-                .format("Korisnik sa id-jem: %s ne postoji.", idLeta)));
+                .format("Let sa id-jem: %s ne postoji.", idLeta)));
     	let.setBrojKarata(let.getBrojKarata() + 1);
     	letoviRepository.save(let);
 	}

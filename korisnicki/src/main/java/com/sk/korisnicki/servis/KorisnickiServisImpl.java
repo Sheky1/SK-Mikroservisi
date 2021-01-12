@@ -26,7 +26,7 @@ import com.sk.korisnicki.dto.LetDto;
 import com.sk.korisnicki.dto.RegistracijaKorisnikaDto;
 import com.sk.korisnicki.dto.TokenOdgovorDto;
 import com.sk.korisnicki.dto.TokenZahtevDto;
-
+import com.sk.korisnicki.dto.UpdateKorisnikaDto;
 import com.sk.korisnicki.exceptions.NotFoundException;
 import com.sk.korisnicki.mappers.KorisnikMapper;
 
@@ -37,13 +37,15 @@ public class KorisnickiServisImpl implements KorisnickiServis {
     private KorisnickiRepository korisnickiRepository;
     private KorisnikMapper korisnikMapper;
     private RestTemplate karteServisRestTemplate;
+    private EmailService emailServis;
 
     public KorisnickiServisImpl(KorisnickiRepository korisnickiRepository, TokenServis tokenServis, KorisnikMapper korisnikMapper,
-    						RestTemplate karteServisRestTemplate) {
+    						RestTemplate karteServisRestTemplate, EmailService emailServis) {
         this.korisnickiRepository = korisnickiRepository;
         this.tokenServis = tokenServis;
         this.korisnikMapper = korisnikMapper;
         this.karteServisRestTemplate = karteServisRestTemplate;
+        this.emailServis = emailServis;
     }
 
     @Override
@@ -64,17 +66,25 @@ public class KorisnickiServisImpl implements KorisnickiServis {
     public KorisnikDto add(RegistracijaKorisnikaDto registracijaKorisnikaDto) {
         Korisnik noviKorisnik = korisnikMapper.registracijaKorisnikaDtoToKorisnik(registracijaKorisnikaDto);
         korisnickiRepository.save(noviKorisnik);
+    	Korisnik korisnik = korisnickiRepository
+                .findKorisnikByEmailAndSifra(registracijaKorisnikaDto.getEmail(), registracijaKorisnikaDto.getSifra())
+                .orElseThrow(() -> new NotFoundException(String
+                .format("Korisnik sa email-om: %s i sifrom: %s ne postoji.", registracijaKorisnikaDto.getEmail(), registracijaKorisnikaDto.getSifra())));
+    	emailServis.sendSimpleMessage(registracijaKorisnikaDto.getEmail(), "Verifikacija", 
+				"Verifikujte nalog klikom na link http://localhost:8083/korisnicki-servis/api/korisnik/verif/" + korisnik.getId());
         return korisnikMapper.korisnikToKorisnikDto(noviKorisnik);
     }
 
 	@Override
-	public KorisnikDto update(Long id, RegistracijaKorisnikaDto registracijaKorisnikaDto) {
+	public KorisnikDto update(Long id, UpdateKorisnikaDto registracijaKorisnikaDto) {
     	Korisnik korisnik = korisnickiRepository
                 .findKorisnikById(id)
                 .orElseThrow(() -> new NotFoundException(String
                 .format("Korisnik sa id-jem: %s ne postoji.", id)));
         Korisnik updateKorisnik = korisnikMapper.korisnikToUpdateKorisnik(korisnik, registracijaKorisnikaDto);
         korisnickiRepository.save(updateKorisnik);
+        if(!registracijaKorisnikaDto.getEmail().equals("")) emailServis.sendSimpleMessage(registracijaKorisnikaDto.getEmail(), "Verifikacija", 
+				"Verifikujte nalog klikom na link http://localhost:8083/korisnicki-servis/api/korisnik/verif/" + korisnik.getId());
         return korisnikMapper.korisnikToKorisnikDto(updateKorisnik);
 	}
 
@@ -85,6 +95,7 @@ public class KorisnickiServisImpl implements KorisnickiServis {
                 .findKorisnikByEmailAndSifra(tokenZahtevDto.getEmail(), tokenZahtevDto.getSifra())
                 .orElseThrow(() -> new NotFoundException(String
                 .format("Korisnik sa email-om: %s i sifrom: %s ne postoji.", tokenZahtevDto.getEmail(), tokenZahtevDto.getSifra())));
+    	if(!korisnik.isVerifikovan()) return null;
     	System.out.println("Ulogovao");
         Claims claims = Jwts.claims();
         claims.put("id", korisnik.getId());
@@ -142,6 +153,8 @@ public class KorisnickiServisImpl implements KorisnickiServis {
 			Korisnik korisnik = korisnikOpt.get();
 			
 			korisnik.setMilje(korisnik.getMilje() - duzinaLeta);
+			emailServis.sendSimpleMessage(korisnik.getEmail(), "Otkazan let", 
+					"Vas let je otkazan.");
 			
 	    	if(korisnik.getMilje() < 1000) korisnik.setRank("Bronza");
 	    	else if(korisnik.getMilje() >= 1000 && korisnik.getMilje() < 10000) korisnik.setRank("Srebro");
@@ -150,5 +163,16 @@ public class KorisnickiServisImpl implements KorisnickiServis {
 	    	korisnickiRepository.save(korisnik);
 		}
     	
+	}
+
+	@Override
+	public KorisnikDto verifikacija(Long id) {
+    	Korisnik korisnik = korisnickiRepository
+                .findKorisnikById(id)
+                .orElseThrow(() -> new NotFoundException(String
+                .format("Korisnik sa id-jem: %s ne postoji", id)));
+    	korisnik.setVerifikovan(true);
+    	korisnickiRepository.save(korisnik);
+		return korisnikMapper.korisnikToKorisnikDto(korisnik);
 	}
 }

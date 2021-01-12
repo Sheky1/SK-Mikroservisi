@@ -30,6 +30,8 @@ public class Korisnik {
     private int milje;
     @Column
     private String rank;
+    @Column
+    private boolean verifikovan;
     @ManyToOne(optional = false)
     private Role role;
     @OneToMany
@@ -46,6 +48,12 @@ public class Korisnik {
 	}
 	public void setIme(String ime) {
 		this.ime = ime;
+	}
+	public boolean isVerifikovan() {
+		return verifikovan;
+	}
+	public void setVerifikovan(boolean verifikovan) {
+		this.verifikovan = verifikovan;
 	}
 	public String getPrezime() {
 		return prezime;

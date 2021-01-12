@@ -12,10 +12,11 @@ public interface KorisnickiServis {
     KorisnikDto findKorisnik(Long id);
 
     KorisnikDto add(RegistracijaKorisnikaDto registracijaKorisnikaDto);
-    KorisnikDto update(Long id, RegistracijaKorisnikaDto registracijaKorisnikaDto);
+    KorisnikDto update(Long id, UpdateKorisnikaDto registracijaKorisnikaDto);
 
     TokenOdgovorDto login(TokenZahtevDto tokenZahtevDto);
     
     void rezervacijaKarte(Long id, int milje);
 	void otkazivanjeKarte(Long idLeta, int duzinaLeta);
+	KorisnikDto verifikacija(Long id);
 }

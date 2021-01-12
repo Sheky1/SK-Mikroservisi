@@ -26,6 +26,7 @@ import com.sk.karte.dto.KreiranjeKarteDto;
 import com.sk.karte.dto.LetDto;
 import com.sk.karte.dto.RezervisanjeKarteDto;
 import com.sk.karte.exceptions.NotFoundException;
+import com.sk.karte.exceptions.NotValidException;
 import com.sk.karte.mapper.KarteMapper;
 import com.sk.karte.model.Karta;
 import com.sk.karte.repository.KarteRepository;
@@ -64,12 +65,12 @@ public class KarteServisImpl implements KarteServis {
 				korisnikServisRestTemplate.exchange("/korisnik/" + kreiranjeKarteDto.getIdUsera(), HttpMethod.GET, entity, KorisnikDto.class);
 		
 		System.out.println(kreiranjeKarteDto.getIdKartice());
-		if(kreiranjeKarteDto.getIdKartice() == null) throw new NotFoundException("Mora uneses karticu");
+		if(kreiranjeKarteDto.getIdKartice() == null) throw new NotValidException("Neophodno je uneti karticu kojom se placa let.");
 		int flag = 0;
 		for (KarticaDto kartica: responseEntityKorisnikDto.getBody().getKartice()) {
 			if(kartica.getId() == kreiranjeKarteDto.getIdKartice()) flag = 1;
 		}
-		if(flag == 0) throw new NotFoundException("Nema te kartice");
+		if(flag == 0) throw new NotFoundException("Zeljena kartica ne postoji");
 
 		HttpHeaders headers2 = new HttpHeaders();
 	    headers2.setContentType(MediaType.TEXT_PLAIN);
@@ -79,7 +80,7 @@ public class KarteServisImpl implements KarteServis {
 				letoviServisRestTemplate.exchange("/letovi/" + kreiranjeKarteDto.getIdLeta(), HttpMethod.GET, entity2, LetDto.class);
 		
 		if(responseEntityLetDto.getBody().getBrojKarata() >= responseEntityLetDto.getBody().getAvionDto().getKapacitetPutnika()) {
-			throw new NotFoundException("kapacitet je pun ne moze da se doda karta");
+			throw new NotValidException("Kapacitet trazenog leta je pun.");
 		}
 		
 		int cena = 0;
