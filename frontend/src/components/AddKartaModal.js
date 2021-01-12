@@ -216,7 +216,7 @@ class AddKartaModal extends Component {
                                     <Col sm={10}>
                                         <div>
                                             Trenutno ne postoji nijedna kartica.
-                                            {/* <button
+                                            <button
                                                 className="navbar__link"
                                                 style={{
                                                     backgroundColor:
@@ -231,7 +231,7 @@ class AddKartaModal extends Component {
                                                     <FaCreditCard />
                                                 </span>{" "}
                                                 Dodaj karticu
-                                            </button> */}
+                                            </button>
                                         </div>
                                     </Col>
                                 )}
