@@ -17,6 +17,8 @@ import { Component } from "react";
 import { api_axios } from "../api/api";
 import * as actions from "../store/actions/index";
 import { toast } from "react-toastify";
+import { FaCreditCard } from "react-icons/fa";
+import AddKarticaModal from "./AddKarticaModal";
 
 class AddKartaModal extends Component {
     constructor(props) {
@@ -25,6 +27,7 @@ class AddKartaModal extends Component {
             idUsera: 0,
             idLeta: 0,
             idKartice: 0,
+            modalCard: false,
         };
     }
 
@@ -42,6 +45,14 @@ class AddKartaModal extends Component {
 
         this.setState({
             [name]: value,
+        });
+    };
+
+    toggleCard = () => this.setModalCard(!this.state.modalCard);
+
+    setModalCard = (modalCard) => {
+        this.setState({
+            modalCard,
         });
     };
 
@@ -114,7 +125,7 @@ class AddKartaModal extends Component {
             this.resetState();
             this.props.toggle();
         } catch (error) {
-            console.log(error);
+            console.log(error.response.data.error_message);
         }
     };
 
@@ -125,6 +136,10 @@ class AddKartaModal extends Component {
     render() {
         return (
             <>
+                <AddKarticaModal
+                    modal={this.state.modalCard}
+                    toggle={this.toggleCard}
+                />
                 <Modal
                     isOpen={this.props.modal}
                     toggle={() => this.props.toggle()}
@@ -201,6 +216,22 @@ class AddKartaModal extends Component {
                                     <Col sm={10}>
                                         <div>
                                             Trenutno ne postoji nijedna kartica.
+                                            {/* <button
+                                                className="navbar__link"
+                                                style={{
+                                                    backgroundColor:
+                                                        "white",
+                                                    marginRight: "20px",
+                                                }}
+                                                onClick={
+                                                    this.toggleCard
+                                                }
+                                            >
+                                                <span>
+                                                    <FaCreditCard />
+                                                </span>{" "}
+                                                Dodaj karticu
+                                            </button> */}
                                         </div>
                                     </Col>
                                 )}

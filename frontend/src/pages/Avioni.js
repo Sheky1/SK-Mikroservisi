@@ -48,7 +48,7 @@ class Avioni extends React.Component {
             this.props.deleteAvion(id);
             toast.success("Uspešno obrisan avion.");
         } catch (error) {
-            console.log(error.response);
+            console.log(error.response.data.error_message);
         }
     };
 
