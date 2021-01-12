@@ -6,6 +6,7 @@ public class KreiranjeAvionaDto {
 
     @NotBlank
 	private String naziv;
+	@NotBlank
 	private int kapacitetPutnika;
 	
 	public String getNaziv() {

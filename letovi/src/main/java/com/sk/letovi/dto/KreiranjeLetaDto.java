@@ -9,7 +9,9 @@ public class KreiranjeLetaDto {
 	private String pocetnaDestinacija;
 	@NotBlank
 	private String krajnjaDestinacija;
+	@NotBlank
     private int duzinaLeta;
+	@NotBlank
     private int cena;
     
 	public Long getIdAviona() {
