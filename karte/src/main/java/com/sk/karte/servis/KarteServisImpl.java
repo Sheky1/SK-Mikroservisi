@@ -67,6 +67,7 @@ public class KarteServisImpl implements KarteServis {
 		System.out.println(kreiranjeKarteDto.getIdKartice());
 		if(kreiranjeKarteDto.getIdKartice() == null) throw new NotValidException("Neophodno je uneti karticu kojom se placa let.");
 		int flag = 0;
+		if(responseEntityKorisnikDto.getBody().getKartice().size() == 0) throw new NotValidException("Molimo vas unesite barem jednu karticu.");
 		for (KarticaDto kartica: responseEntityKorisnikDto.getBody().getKartice()) {
 			if(kartica.getId() == kreiranjeKarteDto.getIdKartice()) flag = 1;
 		}
