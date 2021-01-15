@@ -223,8 +223,12 @@ class AddKartaModal extends Component {
                                                         "white",
                                                     marginRight: "20px",
                                                 }}
-                                                onClick={
-                                                    this.toggleCard
+                                                onClick={(e) => {
+                                                    e.preventDefault()
+                                                    this.toggleCard()
+                                                }
+
+                                                    
                                                 }
                                             >
                                                 <span>

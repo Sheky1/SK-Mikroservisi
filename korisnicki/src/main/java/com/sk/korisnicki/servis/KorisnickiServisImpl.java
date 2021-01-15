@@ -28,6 +28,7 @@ import com.sk.korisnicki.dto.TokenOdgovorDto;
 import com.sk.korisnicki.dto.TokenZahtevDto;
 import com.sk.korisnicki.dto.UpdateKorisnikaDto;
 import com.sk.korisnicki.exceptions.NotFoundException;
+import com.sk.korisnicki.exceptions.NotValidException;
 import com.sk.korisnicki.mappers.KorisnikMapper;
 
 @Service
@@ -55,8 +56,7 @@ public class KorisnickiServisImpl implements KorisnickiServis {
 
     @Override
     public KorisnikDto findKorisnik(Long id) {
-    	Korisnik korisnik = korisnickiRepository
-                .findKorisnikById(id)
+    	Korisnik korisnik = korisnickiRepository.findKorisnikById(id)
                 .orElseThrow(() -> new NotFoundException(String
                 .format("Korisnik sa id-jem: %s ne postoji.", id)));
         return korisnikMapper.korisnikToKorisnikDto(korisnik);
@@ -76,14 +76,14 @@ public class KorisnickiServisImpl implements KorisnickiServis {
     }
 
 	@Override
-	public KorisnikDto update(Long id, UpdateKorisnikaDto registracijaKorisnikaDto) {
+	public KorisnikDto update(Long id, UpdateKorisnikaDto updateKorisnikaDto) {
     	Korisnik korisnik = korisnickiRepository
                 .findKorisnikById(id)
                 .orElseThrow(() -> new NotFoundException(String
                 .format("Korisnik sa id-jem: %s ne postoji.", id)));
-        Korisnik updateKorisnik = korisnikMapper.korisnikToUpdateKorisnik(korisnik, registracijaKorisnikaDto);
+        Korisnik updateKorisnik = korisnikMapper.korisnikToUpdateKorisnik(korisnik, updateKorisnikaDto);
         korisnickiRepository.save(updateKorisnik);
-        if(!registracijaKorisnikaDto.getEmail().equals("")) emailServis.sendSimpleMessage(registracijaKorisnikaDto.getEmail(), "Verifikacija", 
+        if(!updateKorisnikaDto.getEmail().equals("")) emailServis.sendSimpleMessage(updateKorisnikaDto.getEmail(), "Verifikacija", 
 				"Verifikujte nalog klikom na link http://localhost:8083/korisnicki-servis/api/korisnik/verif/" + korisnik.getId());
         return korisnikMapper.korisnikToKorisnikDto(updateKorisnik);
 	}
@@ -95,7 +95,7 @@ public class KorisnickiServisImpl implements KorisnickiServis {
                 .findKorisnikByEmailAndSifra(tokenZahtevDto.getEmail(), tokenZahtevDto.getSifra())
                 .orElseThrow(() -> new NotFoundException(String
                 .format("Korisnik sa email-om: %s i sifrom: %s ne postoji.", tokenZahtevDto.getEmail(), tokenZahtevDto.getSifra())));
-    	if(!korisnik.isVerifikovan()) return null;
+    	if(!korisnik.isVerifikovan()) throw new NotValidException("Korisnik nije verifikovan");
     	System.out.println("Ulogovao");
         Claims claims = Jwts.claims();
         claims.put("id", korisnik.getId());
