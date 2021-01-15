@@ -46,7 +46,7 @@ export function* login(action) {
         // } else action.payload.history.push("/home-admin/");
         action.payload.history.push("/home-user/");
     } catch (error) {
-        console.log(error);
+        console.log(error.response.data.error_message);
     }
 }
 
